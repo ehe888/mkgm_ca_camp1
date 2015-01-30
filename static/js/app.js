@@ -179,8 +179,7 @@ $(function(){
         jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     //分享各个参数初始化
-    var localUrl = location.href,
-        shareUrl = localUrl,
+    var shareUrl = "http://" + window.location.host + "?sharedby="+openid + "&shareid=" + shareid,
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg',
         random = Math.random(),
         title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
@@ -193,16 +192,7 @@ $(function(){
         {
             arrayIndex = 3;
         };
-        //分享给朋友
-        // 替换url中shareid为自己的id
-        if (weixin === 1) 
-        {
-            shareUrl = shareUrl.replace(sharedby, openid).replace(originShareId, shareid);
-        }
-        else
-        {
-            shareUrl = shareUrl + "?sharedby="+openid + "&shareid=" + shareid;
-        }
+        
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
                 desc: wishContent[arrayIndex], // 分享描述

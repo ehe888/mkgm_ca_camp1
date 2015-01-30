@@ -611,7 +611,8 @@ app.post('/shareInfos', function(req, res, next) {
         title : input.title,
         content : input.content
     }
-
+    console.log("share infos : " + JSON.stringify(data));
+    
     pg.connect(conString, function(err, client, done) {
         if(err) {
             return next(err);
