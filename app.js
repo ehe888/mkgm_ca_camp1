@@ -193,7 +193,7 @@ app.get('/jsticket', function(req, res){
 })
 
 
-app.use(authFilter);
+//app.use(authFilter);
 var luckybagSeed = 8034540;
 
 /*
@@ -601,12 +601,13 @@ db.select().from('lottery_record').where('mobile', input.mobile).rows(function(e
 */
 });
 
-app.put('/shareInfos', function(req, res, next) {
+app.post('/shareInfos', function(req, res, next) {
     var input = JSON.parse(JSON.stringify(req.body));
 
     var data = {
         openid : input.openid,
         shareid : input.shareid,
+        sharedby : input.sharedby,
         title : input.title,
         content : input.content
     }
@@ -621,8 +622,9 @@ app.put('/shareInfos', function(req, res, next) {
             process.nextTick(function() {
                 var text = "INSERT INTO share_info(openid, shareid, title, content)" 
                     + "VALUES($1, $2, $3, $4)";
-                client.query(text, [openid, shareid, title, content], 
+                client.query(text, [data.openid, data.shareid, data.title, data.content], 
                     function(err) {
+                        console.error(err);
                         if(err) return rollback(client, done);
                         client.query('COMMIT', done);
                         return res.json({
@@ -633,27 +635,39 @@ app.put('/shareInfos', function(req, res, next) {
             });
         });
     });
-    /*
-                        
-    db.insert('share_info', data).returning('*').row(function(err, rows){
-        if(err) {
-            console.error('error running query', err);
-            next(err);
-            return;
-        }
 
-        res.json({
-            success: true,
-            data: rows
-        });
-    });
-*/
 });
 
 
+app.get('/originUser', function(req, res, next){
+    var shareid = req.query.shareid;
+    
+    console.log("shareid = " + shareid);
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+            console.error('error get connection from pool', err);
+            return next(err);
+        }
+        
+        client.query("select a.title, a.content, b.nickname, b.headimgurl from share_info a join auth_users b on a.openid=b.openid where a.shareid=$1", [shareid], 
+                    function(err, result){
+            done(); 
+            if(err) {  
+              console.error('error running query', err);
+              next(err);
+              return;
+            }
+                    
+            if(result.rows.length === 0 ){
+                return res.json({});
+            }
+            return res.json(result.rows[0]);
+        });
+    });
+});
 
 app.get('/users', function(req, res, next){
-    var input = JSON.parse(JSON.stringify(req.body));
+    
     
     pg.connect(conString, function(err, client, done) {
         if(err) {
@@ -661,7 +675,7 @@ app.get('/users', function(req, res, next){
             return next(err);
         }
         
-        client.query("select b.openid, b.nickname, b.headimgurl from lottery_record a join auth_users b on a.openid=b.openid   where a.sharedby=$1", [input.sharedby], 
+        client.query("select b.openid, b.nickname, b.headimgurl from lottery_record a join auth_users b on a.openid=b.openid   where a.sharedby=$1", [req.query.sharedby], 
                     function(err, result){
             done();
             if(err) {  
@@ -672,10 +686,7 @@ app.get('/users', function(req, res, next){
                     
             return res.json(result.rows);
         });
-    });
-    
-    
-    
+    });    
 });
 
 // catch 404 and forward to error handler
