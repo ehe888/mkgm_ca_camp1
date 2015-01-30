@@ -128,6 +128,7 @@ $(function(){
     {
         weixin = 1;
     };
+    var shareByOpenId = shareBy.split("_")[0];
     
     $(document).find(".preload").each(function(e){
         if(this.src.indexOf("images")!=-1){
@@ -543,7 +544,7 @@ $(function(){
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
-                    sharedby:shareBy},
+                    sharedby:shareByOpenId},
             success:function(data){
                 console.log(data);
                 if (data.success) 
@@ -570,10 +571,9 @@ $(function(){
                     else if (data.errorCode === 'OVER') 
                     {
                         //活动结束
-                        // $('.lateInfo').removeClass("f-dn");
-                        // $('.lateBtn').removeClass("f-dn");
-                        $('.page2_confirm').removeClass("f-dn");
-                        $('.page2_info').removeClass("f-dn");
+                        $('.lateInfo').removeClass("f-dn");
+                        $('.lateBtn').removeClass("f-dn");
+                        
                     };
 
                 }
@@ -601,7 +601,7 @@ $(function(){
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
-                    sharedby:shareBy},
+                    sharedby:shareByOpenId},
             success:function(data){
                 if (data.success) 
                 {
