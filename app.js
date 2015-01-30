@@ -366,8 +366,9 @@ app.get('/wxoauth_callback', function(req, res, next){
                                     if(err) return rollback(client, done);
     
                                     process.nextTick(function() {
-                                        var text = 'UPDATE auth_users(nickname, sex, province, city, country, headimgurl, privilege, 
-            unionid, access_token, refresh_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE openid = $11';
+                                        var text = "UPDATE auth_users(nickname, sex, province, city, country, " 
+                                                + " headimgurl, privilege, unionid, access_token, refresh_token) "
+                                                + " VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE openid = $11";
                                         client.query(text, [nickname, sex, province, 
                                             city, country, headimgurl, privilege, 
                                             unionid, access_token, refresh_token, openid], 
@@ -390,8 +391,9 @@ app.get('/wxoauth_callback', function(req, res, next){
                                     if(err) return rollback(client, done);
     
                                     process.nextTick(function() {
-                                        var text = 'INSERT INTO auth_users(openid, nickname, sex, province, city, country, headimgurl, privilege, 
-            unionid, access_token, refresh_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+                                        var text = "INSERT INTO auth_users(openid, nickname, sex, province, " 
+                                            + "city, country, headimgurl, privilege, unionid, access_token, refresh_token)"
+                                            + "VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
                                         client.query(text, [openid, nickname, sex, province, 
                                             city, country, headimgurl, privilege, 
                                             unionid, access_token, refresh_token], 
