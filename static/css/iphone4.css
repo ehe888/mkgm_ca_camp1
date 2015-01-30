@@ -385,7 +385,7 @@ body .page2_num7{
 
 body .page2_phoneNumber{
     position:absolute;
-    top:71%;
+    top:70.5%;
     height: 8.5%;
     left: 17%;
     width: 60%;    
@@ -809,8 +809,16 @@ body .input_wishCus{
 
 
 }
+/*活动结束*/
+body .lateBtn{
+    position: absolute;
+    width: 54.69%;/*350px*/
+    top: 80%;
+    left: 22.7%;
+    z-index: 10005;
+}
 
-
+/*号码已注册    */
 body .usedBtn{
     position: absolute;
     width: 54.69%;/*350px*/
