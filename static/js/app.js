@@ -120,15 +120,11 @@ $(function(){
     var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
 
     //获取url中 shareid参数作为shareby
-    var Request = new Object();
-        Request = GetRequest();
-    var shareBy = Request['shareid'] == undefined?'':Request['shareid'];
-    //如果有shareid话说明是分享进去的
-    if (shareBy.length>0) 
-    {
-        weixin = 1;
-    };
-    var shareByOpenId = shareBy.split("_")[0];
+    var Request = GetRequest(),
+        sharedBy = Request['sharedby'],
+        originShareId = Request['shareid'],
+        weixin =  sharedBy ? 1 : 0;
+        
     
     $(document).find(".preload").each(function(e){
         if(this.src.indexOf("images")!=-1){
@@ -148,14 +144,13 @@ $(function(){
     },function(){
         adaptive();
         $(".loading_page").remove();
-        if(weixin == 1){
-                $(".m-screen01").removeClass("f-dn");
-            if(firstA==1){
+        if(weixin === 1){
+            $(".m-screen01").removeClass("f-dn");
+            
+            //TODO: 通过Ajax调用 /users, 获得有多少好友已经抢过福袋，然后再进行处理
+            if(firstA == 1){
                 $(".page0_firstA").removeClass("f-dn");
                 $(".page0_circle").addClass("f-dn");
-            }
-            else{
-
             }
         }
         else{
@@ -168,6 +163,7 @@ $(function(){
     //cookie中获取微信config需要的参数，后台给
     var jsapiTicket = $.cookie("jsticket"),
         openid = $.cookie("openid"),
+        shareid = openid + '_' + Date.now(),
         jsapiElements = jsapiTicket.split(","),
         jsapiAppId = jsapiElements[0],
         jsapiTimestamp = parseInt(jsapiElements[1]),
@@ -184,24 +180,11 @@ $(function(){
     });
     //分享各个参数初始化
     var localUrl = location.href,
-        shareid = openid+"_"+ Date.parse(new Date()),
         shareUrl = localUrl,
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg',
         random = Math.random(),
         title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
-    if (shareBy.length>0) 
-    {
-        weixin = 1;
-    };
-    // 替换url中shareid为自己的id
-    if (weixin == 1) 
-    {
-        shareUrl = shareUrl.replace(shareBy,shareid);
-    }
-    else
-    {
-        shareUrl = shareUrl + "?shareid="+shareid;
-    }
+    
 
     //微信分享朋友，分享朋友圈逻辑
     function weixinShare(){
@@ -211,6 +194,15 @@ $(function(){
             arrayIndex = 3;
         };
         //分享给朋友
+        // 替换url中shareid为自己的id
+        if (weixin === 1) 
+        {
+            shareUrl = shareUrl.replace(sharedby, openid).replace(originShareId, shareid);
+        }
+        else
+        {
+            shareUrl = shareUrl + "?sharedby="+openid + "&shareid=" + shareid;
+        }
         wx.onMenuShareAppMessage({
                 title: title, // 分享标题
                 desc: wishContent[arrayIndex], // 分享描述
@@ -224,11 +216,12 @@ $(function(){
                         type: 'post',
                         dataType: 'json',
                         data: {
-                        openid:openid,
-                        shareid:shareid,
-                        title:wishTitleContent[wishIndex<=-100?3:wishIndex],
-                        content:wishContent[wishIndex<=-100?3:wishIndex]
-                    },
+                            openid: openid,
+                            shareid: shareid,
+                            sharedby: sharedBy,
+                            title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                            content:wishContent[wishIndex<=-100?3:wishIndex]
+                        },
                         success:function(responseObj){
                             // alert(response.success);
                         }
@@ -251,12 +244,12 @@ $(function(){
                         type: 'post',
                         dataType: 'json',
                         data: {
-                        openid:openid,
-                        shareid:shareid,
-                        sharedby:shareByOpenId,
-                        title:wishTitleContent[wishIndex<=-100?3:wishIndex],
-                        content:wishContent[wishIndex<=-100?3:wishIndex]
-                    },
+                            openid: openid,
+                            shareid: shareid,
+                            sharedby: sharedBy,
+                            title:wishTitleContent[wishIndex<=-100?3:wishIndex],
+                            content:wishContent[wishIndex<=-100?3:wishIndex]
+                        },
                         success:function(responseObj){
                             // alert(response.success);
                         }
@@ -543,10 +536,12 @@ $(function(){
             url: '/lottery',
             type: 'post',
             dataType: 'json',
-            data: { mobile: phone,
-                    openid:openid,
-                    shareid:shareid,
-                    sharedby:shareByOpenId},
+            data: { 
+                mobile: phone,
+                openid:openid,
+                shareid:shareid,
+                sharedby:sharedBy
+            },
             success:function(data){
                 console.log(data);
                 if (data.success) 
@@ -601,10 +596,12 @@ $(function(){
             url: '/lottery',
             type: 'post',
             dataType: 'json',
-            data: { mobile: phone,
-                    openid:openid,
-                    shareid:shareid,
-                    sharedby:shareByOpenId},
+            data: { 
+                mobile: phone,
+                openid: openid,
+                shareid: shareid,
+                sharedby: sharedBy
+            },
             success:function(data){
                 if (data.success) 
                 {
