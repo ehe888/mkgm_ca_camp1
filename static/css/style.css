@@ -406,7 +406,7 @@ body .page0_bg{
 /*#5E080F /金额*/
 body .page0_shareId{
     position: absolute;
-    top: 17%;
+    top: 19%;
     left: 25%;
     width: 50%;
     height: 10%;
@@ -578,7 +578,7 @@ body #input-mobile2{
     border:0;
     left: 0%;
     top: 9.5%;
-    width: 78%;
+    width: 75%;
     height: 20%;
     background-color: transparent;
     color: #A19684;
