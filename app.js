@@ -281,7 +281,7 @@ app.get('/', function(req, res, next) {
                     
             });
         });
-        
+        /*
         db.run(function (client,  callback){
             // client is a node-postgres client object
             client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
@@ -327,7 +327,7 @@ app.get('/', function(req, res, next) {
         
             
         });
-        
+        */
     });
 });
 
