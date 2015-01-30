@@ -29,18 +29,7 @@ function is_weixn(){
     }  
 }          
 
-function getHostUrl(){
-    var href = window.location.href;
-    if(href.indexOf("/color_riche_extraordinaire") > 0){
-        //正式环境
-        href = "http://mobile_campaign.lorealparis.com.cn/color_riche_extraordinaire"
-    }else{
-        //anything else but must end with "/"
-        href = href.substring(0, href.lastIndexOf("/"));
-    }
-    
-    return  href;
-}
+
 
 function showWeiXinHint(){
     $("#weixin_hint").removeClass("f-dn");
@@ -61,6 +50,13 @@ function GetRequest() {
    }
    return theRequest;
 }
+
+function adaptive(){
+    var w = $(window).width();
+    $("body").css("font-size", 62.5 * w  / 320+"%");
+    console.log("devicew="+w);
+}
+
 
 function loadimg(pics, progressCallBack, completeCallback) {
     var index = 0;
@@ -104,8 +100,6 @@ $(function(){
      * completeCallback 图片加载完成回调函数
      */
      $(".m-progress").removeClass("f-dn");
-    
-    
 
     var weixin = 0,
         firstA = 0;
@@ -115,6 +109,11 @@ $(function(){
 
     var wishIndex = 0;
     var pics = new Array();
+
+    //字体自适应
+    window.onresize=adaptive;
+    
+
      //自定义祝福语
     var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
 
@@ -131,16 +130,11 @@ $(function(){
     };
     
     $(document).find(".preload").each(function(e){
-        
         if(this.src.indexOf("images")!=-1){
             pics.push(this.src+"?"+e);
         }
     });
-    // pics.push("images/7.png");
-    // pics.push("images/8.png");
-    // pics.push("images/9.png");
- //    console.log(i = pics[i]);
-    
+
 
     loadimg(pics,function(w){
         
@@ -154,7 +148,7 @@ $(function(){
     },function(){
         //$("#divLoading").remove();
         //$("#progress_word").remove();
-
+        adaptive();
         $(".loading_page").remove();
         if(weixin == 1){
                 $(".m-screen01").removeClass("f-dn");
@@ -171,7 +165,6 @@ $(function(){
              $(".m-screen0").find(".animated").removeClass("f-ann");
         }
 
-        // console.log("ok");
     });
     
     //cookie中获取微信config需要的参数，后台给
@@ -293,13 +286,13 @@ $(function(){
 
 
     var imgURL = "",
-        baseUrl = getHostUrl(),
         userMobile = "",
         awardCode = "",
         deviceWidth = $(window).width(),
         deviceHeight = $(window).height(),
         trackingCampaign = "color_riche" ;
-
+        console.log(deviceWidth);
+        console.log(deviceHeight);
 
     var  infoMasked = !1;
         
@@ -311,8 +304,7 @@ $(function(){
 
     //iphone4适应
      if (IsIphone4()==true) {
-        // $(".page1_bg").css("background-image","url('images/page1_bg_origin.jpg')");
-        // $(".page2_bg").css("background-image","url('images/page2_bg_origin.jpg')");
+        
         $(".page0_ip4").attr("src", "images/page0_bg_origin.jpg");
         $(".page1_ip4").attr("src", "images/page1_bg_origin.jpg");
         $(".page2_ip4").attr("src", "images/page2_bg_origin.jpg");
@@ -321,35 +313,24 @@ $(function(){
         $(".loading_ip4").attr("src","images/loading_image.jpg");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
         $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
+        $(".lateInfo").attr("src","images/lageInfo_origin.png");
 
 
     };
 
     // 禁止文版被拖动
-        document.body.style.userSelect = 'none';
-        document.body.style.mozUserSelect = 'none';
-        document.body.style.webkitUserSelect = 'none';
+    document.body.style.userSelect = 'none';
+    document.body.style.mozUserSelect = 'none';
+    document.body.style.webkitUserSelect = 'none';
 
-        //禁止图片被选中
-        document.onselectstart = new Function('event.returnValue=false;');
-        //禁止图片被拖动
-        document.ondragstart = new Function('event.returnValue=false;');
+    //禁止图片被选中
+    document.onselectstart = new Function('event.returnValue=false;');
+    //禁止图片被拖动
+    document.ondragstart = new Function('event.returnValue=false;');
 
-        $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
-        $(window).on('scroll.scroll',function (e) {e.preventDefault();});
-    //字体自适应
-    function adaptive(){
-    var w = $(".g-doc").width();
+    $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
+    $(window).on('scroll.scroll',function (e) {e.preventDefault();});
 
-    var h = $(".g-doc").height();
-    console.log(w);
-    $("#top_component").css("height",h*0.6418);
-    $("#bottom_component").css("top",h*0.6418);
-    $("#bottom_component").css("height",h*0.3582);
-    $("body").css("font-size", 62.5 * deviceWidth / 640+"%");
-}
-    
-    // 加载页
 
     // 首页
 
@@ -364,22 +345,32 @@ $(function(){
     var numPics = ["images/0.png","images/1.png","images/2.png","images/3.png","images/4.png","images/5.png","images/6.png","images/7.png","images/8.png","images/9.png"];
     // var numUrl = changeNum(countN);
     // 字体自适应
-    $("body").css("font-size", 62.5 * deviceWidth / 320+"%");
+    //$("body").css("font-size", 62.5 * deviceWidth / 320+"%");
     
     function changeNum(countN){
       
       return numPics[countN];
 
     }
-
+    //获取分享祝福语
     var shareTitle = $(".sharedTitle").html().trim();
     var shareContent = $(".sharedContent").html().trim();
+    if(shareTitle.length == 0){
+        $(".page0_wishCus").removeClass("f-dn");
+        $("#page0_wish").html(shareContent);
+    }  
+    else{
+        $(".page0_wishText").removeClass("f-dn");
+
+        $("#page0_wishTitle").html(shareTitle);
+        $("#page0_wish").html(shareContent);
+        
+    }
 
     console.log("title = " + shareTitle + " content = " + shareContent);
 
 
-   // $("#num1").html(count1.toString());
-    // $("#num1").css("background-image","url("+changeNum(count1)+")");
+  
     $("#num1").attr("src",changeNum(count1));
     $("#num2").attr("src",changeNum(count2));
     $("#num3").attr("src",changeNum(count3));
@@ -460,10 +451,7 @@ $(function(){
          $(".m-screen1").find(".animated").removeClass("f-ann")
     };
 
-    // $(".page1_belt").mousemove(function(e){
-    //     console.log("page1_belt mousemove");
-    //     tearBag();
-    // });
+
     // 添加手势箭头
     var startX,startY;
     var belt = $("#page1_belt");
@@ -526,29 +514,6 @@ $(function(){
 
 
     /* 微信进入首页 */
-
-     
-
-
-
-    /*抽福袋*/
-   
-    // $(".m-screen1").find("#input-mobile").on('blur', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === ''){
-    //                 $(this).val('输入手机号立即查看中奖结果');
-    //             }
-    //         }
-    //     }).on('focus',  function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === '输入手机号立即查看中奖结果'){
-    //                 $(this).val('');
-    //             }
-    //         } 
-    //     });
-    
-    
-    
     
      $(".m-screen1").find(".page2_phoneNumber").on('blur', 'input', function(){
             if($(this).attr('id') === 'input-mobile' ){
@@ -596,6 +561,7 @@ $(function(){
                     openid:openid,
                     sharedby:shareBy},
             success:function(data){
+                console.log(data);
                 if (data.success) 
                 {
                     console.log("value: "+data.data.value + "code: "+data.data.code);
@@ -605,6 +571,8 @@ $(function(){
                     }
                     else{
                         firstPrize = 0;
+                        $(".page3_cash1").html(parseInt(data.data.value));
+                        $(".page3_cash2").html(200-parseInt(data.data.value));
                     }
                     $('.page2_confirm').removeClass("f-dn");
                     $('.page2_info').removeClass("f-dn");
@@ -618,6 +586,10 @@ $(function(){
                     else if (data.errorCode === 'OVER') 
                     {
                         //活动结束
+                        // $('.lateInfo').removeClass("f-dn");
+                        // $('.lateBtn').removeClass("f-dn");
+                        $('.page2_confirm').removeClass("f-dn");
+                        $('.page2_info').removeClass("f-dn");
                     };
 
                 }
@@ -671,6 +643,8 @@ $(function(){
                     else if (data.errorCode == 'OVER') 
                     {
                         //活动结束
+                        $('.lateInfo').removeClass("f-dn");
+                        $('.lateBtn').removeClass("f-dn");
                     };
 
                 }
@@ -680,9 +654,16 @@ $(function(){
            
     }); 
 
+    
+
     $('.usedBtn').click(function(e){
         $('.usedNumber').addClass("f-dn");
-            $('.usedBtn').addClass("f-dn");
+        $('.usedBtn').addClass("f-dn");
+    })
+
+    $('.lateBtn').click(function(e){
+        $('.lateInfo').addClass("f-dn");
+        $('.lateBtn').addClass("f-dn");
     })
 
     $(".page2_confirm").click(function(e){
@@ -819,11 +800,7 @@ $(function(){
 
     
 
-    //自定义祝福语
-    // var wishTitleContent = ["“袋你任性袋你壕”","“Fun抢福袋我最拼”","“默默抢福袋 低调送祝福”",""];
 
-    // console.log(wishTitleContent[0]);
-    // var wishContent = ["虽然我不是土豪，可今天就是要任性的给你送个C&A大福袋，快来看看我给你准备了什么!","为了给你送上新春祝福，我也是拼了！C&A福袋拿去，赶紧愉快地开始买买买吧！","C&A福袋已抢，我的祝福只能送到这里，新春一定要更时尚更幸福哟！"]; 
 
 
 
@@ -1274,46 +1251,6 @@ $(function(){
         var data = $(this).attr("track-data");
         ga('send','event','CNY-social',track,data);
     })
-
-    // $(".g-ct1").css("opacity",0);
-    // $("#slide5").css("opacity",0);
-    
-    // var hintTop = 56 * deviceWidth/bgWidth;
-    // var hintLeft = (640-434)/2 * deviceWidth/bgWidth;
-    // var hintWidth = 434 * deviceWidth/bgWidth;
-    // var hintHeight = hintWidth * 427/434;
-    
-    // $("#weixin_hint").find("#hint").height(hintHeight).width(hintWidth).css({ top: hintTop, left: hintLeft }); 
-    
-    // //set 手机输入框的位置和大小
-    // var rawBgWidth = 541,
-    //     rawBgHeight = 83,
-    //     tbgW = 541 * deviceWidth/bgWidth,
-    //     tbgH = tbgW * rawBgHeight / rawBgWidth,
-    //     tbgLeft = (deviceWidth - tbgW)/2;
-    // $(".checkbg").height(tbgH).width(tbgW).css({ left:tbgLeft });
-
-    
-    // $(".validateBg").height(tbgH).width(tbgW).css({ left:tbgLeft });
-    
-    // $("#slide6").find(".validateBg").on('blur', 'input', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === ''){
-    //                 $(this).val('输入手机号立即查看中奖结果');
-    //             }
-    //         }
-    //     }).on('focus', 'input', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === '输入手机号立即查看中奖结果'){
-    //                 $(this).val('');
-    //             }
-    //         } 
-    //     });
-        
-    
-  
-    
-   
 });
     
 
