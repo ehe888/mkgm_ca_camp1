@@ -62,8 +62,50 @@ function GetRequest() {
    return theRequest;
 }
 
-$(function(){
+function loadimg(pics, progressCallBack, completeCallback) {
+    var index = 0;
+    var len = pics.length;
+    var img = new Image();
+    var load = function () {
+        img.src = pics[index];
+        img.onload = function () {
+            // 控制台显示加载图片信息
+            console.log('第' + index + '个img被预加载', img.src);
+            progressCallBack(Math.floor(((index + 1) / len) * 100) + "%");
+            i = index;
+            index++;
+            
+            if (index < len) {
+                load();
+            } else {
+                completeCallback()
+            }
+        }
+        return img;
+    }
+    if (len > 0) {
+        load();
+    } else {
+        progressCallBack("100%");
+    }
+    return {
+        pics:pics,
+        load:load,
+        progress:progressCallBack,
+        complete:completeCallback
+    };
+}
 
+$(function(){
+    /*
+     * 图片预加载
+     * pics 预加载图片的对象数组
+     * progressCallBack 加载中回调函数
+     * completeCallback 图片加载完成回调函数
+     */
+     $(".m-progress").removeClass("f-dn");
+    
+    
 
     var weixin = 0,
         firstA = 0;
@@ -87,6 +129,51 @@ $(function(){
     {
         weixin = 1;
     };
+    
+    $(document).find(".preload").each(function(e){
+        
+        if(this.src.indexOf("images")!=-1){
+            pics.push(this.src+"?"+e);
+        }
+    });
+    // pics.push("images/7.png");
+    // pics.push("images/8.png");
+    // pics.push("images/9.png");
+ //    console.log(i = pics[i]);
+    
+
+    loadimg(pics,function(w){
+        
+        var len = pics.length;
+        //console.log(w);
+        var per = parseInt(w);
+        //console.log(per);
+        $(".loading_num").html(w);
+        $(".loading_page").find(".animated").removeClass("f-dn");
+
+    },function(){
+        //$("#divLoading").remove();
+        //$("#progress_word").remove();
+
+        $(".loading_page").remove();
+        if(weixin == 1){
+                $(".m-screen01").removeClass("f-dn");
+            if(firstA==1){
+                $(".page0_firstA").removeClass("f-dn");
+                $(".page0_circle").addClass("f-dn");
+            }
+            else{
+
+            }
+        }
+        else{
+             $(".m-screen0").removeClass("f-dn");
+             $(".m-screen0").find(".animated").removeClass("f-ann");
+        }
+
+        // console.log("ok");
+    });
+    
     //cookie中获取微信config需要的参数，后台给
     var jsapiTicket = $.cookie("jsticket"),
         openid = $.cookie("openid"),
@@ -263,98 +350,6 @@ $(function(){
 }
     
     // 加载页
-
-    /*
-     * 图片预加载
-     * pics 预加载图片的对象数组
-     * progressCallBack 加载中回调函数
-     * completeCallback 图片加载完成回调函数
-     */
-  
-    
-    $(document).find(".preload").each(function(e){
-        
-        if(this.src.indexOf("images")!=-1){
-            pics.push(this.src+"?"+e);
-        }
-    });
-    // pics.push("images/7.png");
-    // pics.push("images/8.png");
-    // pics.push("images/9.png");
- //    console.log(i = pics[i]);
-    
-
-
-    function loadimg(pics, progressCallBack, completeCallback) {
-        var index = 0;
-        var len = pics.length;
-        var img = new Image();
-        var load = function () {
-            img.src = pics[index];
-            img.onload = function () {
-                // 控制台显示加载图片信息
-                console.log('第' + index + '个img被预加载', img.src);
-                progressCallBack(Math.floor(((index + 1) / len) * 100) + "%");
-                i = index;
-                index++;
-                
-                if (index < len) {
-                    load();
-                } else {
-                    completeCallback()
-                }
-            }
-            return img;
-        }
-        if (len > 0) {
-            load();
-        } else {
-            progressCallBack("100%");
-        }
-        return {
-            pics:pics,
-            load:load,
-            progress:progressCallBack,
-            complete:completeCallback
-        };
-    }
-
-    loadimg(pics,function(w){
-        
-            var len = pics.length;
-             //console.log(w);
-              var per = parseInt(w);
-                //console.log(per);
-                $(".m-progress").removeClass("f-dn");
-                $(".loading_num").html(w);
-                $(".loading_page").find(".animated").removeClass("f-dn");
-
-        },function(){
-            //$("#divLoading").remove();
-            //$("#progress_word").remove();
-
-            $(".loading_page").remove();
-            if(weixin==1){
-                    $(".m-screen01").removeClass("f-dn");
-                if(firstA==1){
-                    $(".page0_firstA").removeClass("f-dn");
-                    $(".page0_circle").addClass("f-dn");
-
-                }
-                else{
-
-                }
-            }
-            else{
-                 $(".m-screen0").removeClass("f-dn");
-                 $(".m-screen0").find(".animated").removeClass("f-ann");
-            }
-            
-
-            // console.log("ok");
-        });
-  
-    
 
     // 首页
 
@@ -615,12 +610,12 @@ $(function(){
                     $('.page2_info').removeClass("f-dn");
                 }
                 else{
-                    if (data.errorCode == 'PHONE_USED') 
+                    if (data.errorCode === 'PHONE_USED') 
                     {
                         $('.usedNumber').removeClass("f-dn");
                         $('.usedBtn').removeClass("f-dn");
                     }
-                    else if (data.errorCode == 'OVER') 
+                    else if (data.errorCode === 'OVER') 
                     {
                         //活动结束
                     };
