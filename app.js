@@ -617,11 +617,14 @@ app.post('/shareInfos', function(req, res, next) {
             return next(err);
         }
         client.query('BEGIN', function(err) {
-            if(err) return rollback(client, done);
+            if(err) {
+                rollback(client, done);
+                return next(err);
+            }
 
             process.nextTick(function() {
                 var text = "INSERT INTO share_info(openid, shareid, sharedby, title, content)" 
-                    + "VALUES($1, $2, $3, $4)";
+                    + "VALUES($1, $2, $3, $4, $5)";
                 client.query(text, [data.openid, data.shareid, data.sharedby, data.title, data.content], 
                     function(err) {
                         console.error(err);
