@@ -55,7 +55,7 @@ function GetRequest() {
 function adaptive(){
     var w = $(window).width();
     $("body").css("font-size", 62.5 * w  / 320+"%");
-    console.log("devicew="+w);
+    // console.log("devicew="+w);
 }
 
 function loadimg(pics, progressCallBack, completeCallback) {
@@ -66,7 +66,7 @@ function loadimg(pics, progressCallBack, completeCallback) {
         img.src = pics[index];
         img.onload = function () {
             // 控制台显示加载图片信息
-            console.log('第' + index + '个img被预加载', img.src);
+            // console.log('第' + index + '个img被预加载', img.src);
             progressCallBack(Math.floor(((index + 1) / len) * 100) + "%");
             i = index;
             index++;
@@ -146,7 +146,53 @@ $(function(){
         $(".loading_page").remove();
         if(weixin === 1){
             $(".m-screen01").removeClass("f-dn");
-            
+            //获取原分享人头像
+            $.ajax({
+                url:'/originUser?shareid='+originShareId,
+                type:'GET',
+                dataType:'json',
+                success:function(response){
+                    //console.log(response);
+                    $(".profile0_image").attr("src",response.headimgurl);
+                    $(".page0_shareId").html(response.nickname);
+                }
+            });
+            $.ajax({
+                url:'/users?sharedby='+sharedBy,
+                type:'GET',
+                dataType:'json',
+                success:function(response){
+                    console.log(response);
+                    
+                    if (response[0]) 
+                    {                        
+                        $(".profile2_image").attr("src",response[0].headimgurl);
+                        $(".profile2_shareId").html(response[i].nickname);
+                        $(".profile2").removeClass("f-dn");
+                    };
+                    if (response[1]) 
+                    {                        
+                        $(".profile3_image").attr("src",response[0].headimgurl);
+                        $(".profile3_shareId").html(response[i].nickname);
+                        $(".profile3").removeClass("f-dn");
+                    };
+                    if (response[2]) 
+                    {                        
+                        $(".profile1_image").attr("src",response[0].headimgurl);
+                        $(".profile1_shareId").html(response[i].nickname);
+                        $(".profile1").removeClass("f-dn");
+                    };
+                    if (response[3]) 
+                    {                        
+                        $(".profile4_image").attr("src",response[0].headimgurl);
+                        $(".profile4_shareId").html(response[i].nickname);
+                        $(".profile4").removeClass("f-dn");
+                    };
+
+
+                }
+
+            });
             //TODO: 通过Ajax调用 /users, 获得有多少好友已经抢过福袋，然后再进行处理
             if(firstA == 1){
                 $(".page0_firstA").removeClass("f-dn");
@@ -197,7 +243,7 @@ $(function(){
         // 替换url中shareid为自己的id
         if (weixin === 1) 
         {
-            shareUrl = shareUrl.replace(sharedby, openid).replace(originShareId, shareid);
+            shareUrl = shareUrl.replace(sharedBy, openid).replace(originShareId, shareid);
         }
         else
         {
@@ -346,17 +392,18 @@ $(function(){
     var shareContent = $(".sharedContent").html().trim();
     if(shareTitle.length == 0){
         $(".page0_wishCus").removeClass("f-dn");
-        $("#page0_wish").html(shareContent);
+        $("#page0_wishC").html(shareContent);
     }  
     else{
         $(".page0_wishText").removeClass("f-dn");
 
         $("#page0_wishTitle").html(shareTitle);
         $("#page0_wish").html(shareContent);
-        
     }
 
     console.log("title = " + shareTitle + " content = " + shareContent);
+
+
 
 
   
@@ -442,7 +489,7 @@ $(function(){
     var pointX = parseInt(0.4 * screen.width);
     var pointY = 0.5 * bgHeight;
     var pointBottomY = pointY + beltWidth*309/134;
-    console.log(pointBottomY+"y: " + pointY);
+    // console.log(pointBottomY+"y: " + pointY);
     var arrow = $(".page1_arrowMove");
     var isSuccess = false;
     var hammer = new Hammer(document.getElementById('page1_bg'));
@@ -543,7 +590,7 @@ $(function(){
                 sharedby:sharedBy
             },
             success:function(data){
-                console.log(data);
+                // console.log(data);
                 if (data.success) 
                 {
                     console.log("value: "+data.data.value + "code: "+data.data.code);
@@ -555,6 +602,7 @@ $(function(){
                         firstPrize = 0;
                         $(".page3_cash1").html(parseInt(data.data.value));
                         $(".page3_cash2").html(200-parseInt(data.data.value));
+                        $(".page5_cash").html(parseInt(data.data.value));
                     }
                     $('.page2_confirm').removeClass("f-dn");
                     $('.page2_info').removeClass("f-dn");
@@ -605,7 +653,7 @@ $(function(){
             success:function(data){
                 if (data.success) 
                 {
-                    console.log("value: "+data.data.value + "code: "+data.data.code);
+                    // console.log("value: "+data.data.value + "code: "+data.data.code);
                     if (data.data.value == 888) 
                     {
                         firstPrize = 1;
@@ -614,6 +662,7 @@ $(function(){
                         firstPrize = 0;
                         $(".page3_cash1").html(parseInt(data.data.value));
                         $(".page3_cash2").html(200-parseInt(data.data.value));
+                        $(".page5_cash").html(parseInt(data.data.value));
                     }
                     $('.page2_confirm').removeClass("f-dn");
                     $('.page2_info').removeClass("f-dn");
@@ -648,6 +697,8 @@ $(function(){
     $('.lateBtn').click(function(e){
         $('.lateInfo').addClass("f-dn");
         $('.lateBtn').addClass("f-dn");
+        $(".m-screen0").removeClass("f-dn");
+        $(".m-screen0").find(".animated").removeClass("f-ann");
     })
 
     $(".page2_confirm").click(function(e){
@@ -743,13 +794,13 @@ $(function(){
                 wishIndex = wishIndex+maxIndex;
         }
 
-        console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+        // console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
         
     }
 
 
     var swipeEvent2 = function(e){
-        console.log(e)
+        // console.log(e)
         var type = e.type;
         var touch = e.touches[0];
         switch(type){
@@ -792,7 +843,7 @@ $(function(){
     var swipeDirection2 = function(tsPoint,tePoint){
         var distanceX = tePoint.x - tsPoint.x
         wishIndex = wishIndex%maxIndex;
-        console.log(wishIndex);
+        // console.log(wishIndex);
         if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
             $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
             $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
@@ -974,9 +1025,9 @@ $(function(){
     var swipeDirection = function(tsPoint,tePoint){
         var distanceX = tePoint.x - tsPoint.x
         wishIndex = wishIndex%maxIndex;
-        console.log(wishIndex);
-        console.log("startX:"+tsPoint.x);
-        console.log("endX:"+tePoint.x);
+        // console.log(wishIndex);
+        // console.log("startX:"+tsPoint.x);
+        // console.log("endX:"+tePoint.x);
 
         if (distanceX > minDistance || distanceX < minDistance*(-1) ) {
             $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
@@ -1201,7 +1252,7 @@ $(function(){
         $(".page4_wishTitleC").removeClass("f-ann");
         wishContent[3]=$("#input_wishcus").val();
         
-        console.log(wishContent[3]);
+        // console.log(wishContent[3]);
 
         wishIndex=-100;
         weixinShare();

@@ -192,6 +192,56 @@ body .page0_circle4{
     z-index: 10001;
 }
 
+body .page0_shareId{
+    position: absolute;
+    top: 17%;
+    left: 25%;
+    width: 50%;
+    height: 10%;
+    font-size: 1.5em;
+    font-weight: 800;
+    color: #8D8378;
+    text-align: center;
+
+}
+
+body .profile0{
+    position: absolute;
+    top: 29.5%;
+    width: 23%;
+    left: 10%;
+    -webkit-border-radius: 50%;
+    overflow: hidden;    
+}
+
+body .profile1{
+    position: absolute;
+    top:73%;
+    width: 20%;
+    left: 4.5%;
+}
+
+body .profile2{
+    position: absolute;
+    top:73%;
+    width: 20%;
+    left: 27.8%;
+}
+
+body .profile3{
+    position: absolute;
+    top:73%;
+    width: 20%;
+    left: 51.8%;
+}
+
+body .profile4{
+    position: absolute;
+    top:73%;
+    width: 20%;
+    left: 76%;
+}
+
 /*首页*/
 body .page1_c1{
     position: absolute;
