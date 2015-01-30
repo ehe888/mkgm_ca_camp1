@@ -57,7 +57,7 @@ function adaptive(){
     $("body").css("font-size", 62.5 * w  / 320+"%");
     console.log("devicew="+w);
 }
-    
+
 function loadimg(pics, progressCallBack, completeCallback) {
     var index = 0;
     var len = pics.length;
@@ -92,7 +92,6 @@ function loadimg(pics, progressCallBack, completeCallback) {
     };
 }
 
-
 $(function(){
     /*
      * 图片预加载
@@ -101,8 +100,6 @@ $(function(){
      * completeCallback 图片加载完成回调函数
      */
      $(".m-progress").removeClass("f-dn");
-    
-    
 
     var weixin = 0,
         firstA = 0;
@@ -133,12 +130,11 @@ $(function(){
     };
     
     $(document).find(".preload").each(function(e){
-        
         if(this.src.indexOf("images")!=-1){
             pics.push(this.src+"?"+e);
         }
     });
-    
+
     loadimg(pics,function(w){
         
         var len = pics.length;
@@ -166,7 +162,6 @@ $(function(){
              $(".m-screen0").find(".animated").removeClass("f-ann");
         }
 
-        // console.log("ok");
     });
     
     //cookie中获取微信config需要的参数，后台给
@@ -332,7 +327,7 @@ $(function(){
 
     $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
     $(window).on('scroll.scroll',function (e) {e.preventDefault();});
-        
+
     var count = parseInt($(".luckybag").html().trim());
     var count1 = parseInt(count/1000000) ;
     var count2 = parseInt(count/100000)%10;
@@ -440,10 +435,7 @@ $(function(){
          $(".m-screen1").find(".animated").removeClass("f-ann")
     };
 
-    // $(".page1_belt").mousemove(function(e){
-    //     console.log("page1_belt mousemove");
-    //     tearBag();
-    // });
+
     // 添加手势箭头
     var startX,startY;
     var belt = $("#page1_belt");
@@ -506,29 +498,6 @@ $(function(){
 
 
     /* 微信进入首页 */
-
-     
-
-
-
-    /*抽福袋*/
-   
-    // $(".m-screen1").find("#input-mobile").on('blur', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === ''){
-    //                 $(this).val('输入手机号立即查看中奖结果');
-    //             }
-    //         }
-    //     }).on('focus',  function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === '输入手机号立即查看中奖结果'){
-    //                 $(this).val('');
-    //             }
-    //         } 
-    //     });
-    
-    
-    
     
      $(".m-screen1").find(".page2_phoneNumber").on('blur', 'input', function(){
             if($(this).attr('id') === 'input-mobile' ){
@@ -1266,46 +1235,6 @@ $(function(){
         var data = $(this).attr("track-data");
         ga('send','event','CNY-social',track,data);
     })
-
-    // $(".g-ct1").css("opacity",0);
-    // $("#slide5").css("opacity",0);
-    
-    // var hintTop = 56 * deviceWidth/bgWidth;
-    // var hintLeft = (640-434)/2 * deviceWidth/bgWidth;
-    // var hintWidth = 434 * deviceWidth/bgWidth;
-    // var hintHeight = hintWidth * 427/434;
-    
-    // $("#weixin_hint").find("#hint").height(hintHeight).width(hintWidth).css({ top: hintTop, left: hintLeft }); 
-    
-    // //set 手机输入框的位置和大小
-    // var rawBgWidth = 541,
-    //     rawBgHeight = 83,
-    //     tbgW = 541 * deviceWidth/bgWidth,
-    //     tbgH = tbgW * rawBgHeight / rawBgWidth,
-    //     tbgLeft = (deviceWidth - tbgW)/2;
-    // $(".checkbg").height(tbgH).width(tbgW).css({ left:tbgLeft });
-
-    
-    // $(".validateBg").height(tbgH).width(tbgW).css({ left:tbgLeft });
-    
-    // $("#slide6").find(".validateBg").on('blur', 'input', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === ''){
-    //                 $(this).val('输入手机号立即查看中奖结果');
-    //             }
-    //         }
-    //     }).on('focus', 'input', function(){
-    //         if($(this).attr('id') === 'input-mobile' ){
-    //             if($.trim($(this).val()) === '输入手机号立即查看中奖结果'){
-    //                 $(this).val('');
-    //             }
-    //         } 
-    //     });
-        
-    
-  
-    
-   
 });
     
 
