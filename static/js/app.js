@@ -253,6 +253,7 @@ $(function(){
                         data: {
                         openid:openid,
                         shareid:shareid,
+                        sharedby:shareByOpenId,
                         title:wishTitleContent[wishIndex<=-100?3:wishIndex],
                         content:wishContent[wishIndex<=-100?3:wishIndex]
                     },
@@ -544,6 +545,7 @@ $(function(){
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
+                    shareid:shareid,
                     sharedby:shareByOpenId},
             success:function(data){
                 console.log(data);
@@ -601,6 +603,7 @@ $(function(){
             dataType: 'json',
             data: { mobile: phone,
                     openid:openid,
+                    shareid:shareid,
                     sharedby:shareByOpenId},
             success:function(data){
                 if (data.success) 
