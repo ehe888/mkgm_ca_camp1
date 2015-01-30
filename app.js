@@ -20,6 +20,17 @@ var pg = require('pg');
 //set connection pool size to 20
 pg.defaults.poolSize = 1;
 
+var rollback = function(client, done) {
+  client.query('ROLLBACK', function(err) {
+    //if there was a problem rolling back the query
+    //something is seriously messed up.  Return the error
+    //to the done function to close & remove this client from
+    //the pool.  If you leave a client in the pool with an unaborted
+    //transaction weird, hard to diagnose problems might happen.
+    return done(err);
+  });
+};
+
 var routes = require('./routes/index');
 var html_dir = './static';
 var app = express();
@@ -281,53 +292,7 @@ app.get('/', function(req, res, next) {
                     
             });
         });
-        /*
-        db.run(function (client,  callback){
-            // client is a node-postgres client object
-            client.query("select count(*) from lottery_record where used=$1", [true], function(err, result){
-                var luckybagNumber = luckybagSeed;
-                if(err){
-                    //doesn't matter, we just give a number
-                    
-                }else{
-                    console.log("query result callback : " + result.rows);
-                    luckybagNumber += parseInt(result.rows[0].count);
-                }
-                if(sharedby){
-                        client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
-                        var friends = false;
-                        if(err || result.rows.length === 0){
-                            //doen't matter
-                        }else{
-                            friends = result.rows;
-                        }
-                        
-                        console.log("query friends result callback : " + result.rows);
-                        
-                        client.query("select title, content from share_info where shareid=$1", 
-                                    [shareid], function(err, result){
-                            var title = '',
-                                content = '';
-                            if(err || result.rows.length === 0){
-                                //now result, should provide a default
-                            }else{
-                                title = result.rows[0].title;
-                                content = result.rows[0].content;
-                            }
-                            res.render('index', { luckybagNumber : luckybagNumber, 
-                                    friends: friends, title: title, content: content});
-                        });
-                        
-                    }); 
-                }else{
-                    res.render('index', { luckybagNumber : luckybagNumber, friends: false, title:'', content: ''});
-                }
-                
-            });
-        
-            
-        });
-        */
+
     });
 });
 
@@ -381,6 +346,68 @@ app.get('/wxoauth_callback', function(req, res, next){
                     privilege = userInfo.privilege,
                     unionid = userInfo.unionid;
                 
+                pg.connect(conString, function(err, client, done) {
+                    if(err) {
+                        return next(err);
+                    }
+                    client.query("select * from auth_users where openid=$1", [openid], function(err, result){
+                        done();
+                        if(err) {  
+                          console.error('error running query', err);
+                          return next(err);
+                        }
+                        var rows = result.rows;
+                        if(rows.length > 0 ){
+                            pg.connect(conString, function(err, client, done) {
+                                if(err) {
+                                    return next(err);
+                                }
+                                client.query('BEGIN', function(err) {
+                                    if(err) return rollback(client, done);
+    
+                                    process.nextTick(function() {
+                                        var text = 'UPDATE auth_users(nickname, sex, province, city, country, headimgurl, privilege, 
+            unionid, access_token, refresh_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE openid = $11';
+                                        client.query(text, [nickname, sex, province, 
+                                            city, country, headimgurl, privilege, 
+                                            unionid, access_token, refresh_token, openid], 
+                                            function(err) {
+                                                if(err) return rollback(client, done);
+                                                client.query('COMMIT', done);
+                                                console.log("Reset openid in cookie : " + openid);
+                                                return res.redirect(req.query.redirect);
+                                        });
+                                    });
+                                });
+                            });
+                            
+                        }else{
+                            pg.connect(conString, function(err, client, done) {
+                                if(err) {
+                                    return next(err);
+                                }
+                                client.query('BEGIN', function(err) {
+                                    if(err) return rollback(client, done);
+    
+                                    process.nextTick(function() {
+                                        var text = 'INSERT INTO auth_users(openid, nickname, sex, province, city, country, headimgurl, privilege, 
+            unionid, access_token, refresh_token) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)';
+                                        client.query(text, [openid, nickname, sex, province, 
+                                            city, country, headimgurl, privilege, 
+                                            unionid, access_token, refresh_token], 
+                                            function(err) {
+                                                if(err) return rollback(client, done);
+                                                client.query('COMMIT', done);
+                                                console.log("Reset openid in cookie : " + openid);
+                                                return res.redirect(req.query.redirect);
+                                        });
+                                    });
+                                });
+                            });
+                        }
+                    });
+                });
+                /*
                 //upsert openid, access_token, refresh_token, expires_in into database
                 db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
                     if(err) {  
@@ -417,28 +444,29 @@ app.get('/wxoauth_callback', function(req, res, next){
                         //insert new record
                         console.log("insert new openid : " + openid);
                         db.insert('auth_users', 
-                            {   
-                                openid: openid,
-                                nickname: nickname, 
-                                sex: sex, 
-                                province: province, 
-                                city: city,
-                                country: country,
-                                headimgurl: headimgurl,
-                                privilege: privilege,
-                                unionid: unionid,
-                                access_token: access_token,
-                                refresh_token: refresh_token
-                            }).returning('*').row(function(err, row){
-                                if(err) {  
-                                  console.error('error running query', err);
-                                  return next(err);
-                                }
-                                
-                                return res.redirect(req.query.redirect);
-                            });
+                        {   
+                            openid: openid,
+                            nickname: nickname, 
+                            sex: sex, 
+                            province: province, 
+                            city: city,
+                            country: country,
+                            headimgurl: headimgurl,
+                            privilege: privilege,
+                            unionid: unionid,
+                            access_token: access_token,
+                            refresh_token: refresh_token
+                        }).returning('*').row(function(err, row){
+                            if(err) {  
+                              console.error('error running query', err);
+                              return next(err);
+                            }
+                            
+                            return res.redirect(req.query.redirect);
+                        });
                     }
                 });
+                */
             });
     	}
     });
