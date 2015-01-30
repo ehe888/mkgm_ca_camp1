@@ -415,6 +415,7 @@ body .page3_send{
     width: 54.69%; /*350/640*/
     top:78%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 body .page4_send{
@@ -422,6 +423,7 @@ body .page4_send{
     width: 54.69%; /*350/640*/
     top:78%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 

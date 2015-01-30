@@ -1090,6 +1090,7 @@ body .page3_send{
     width: 54.69%; /*350/640*/
     top:85%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 /*step3 888时尚大福袋*/
@@ -1340,6 +1341,7 @@ body .page4_send{
     width: 54.69%; /*350/640*/
     top:85%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 
