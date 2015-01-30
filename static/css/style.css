@@ -615,13 +615,12 @@ body .page0_phoneNumber{
 
 body .page2_phoneNumber{
     position:absolute;
-    top:69.5%;
+    top:69%;
     height: 8.5%;
     left: 17%;
     width: 60%;
         
      
-
 }
 
 body #input-mobile{
@@ -652,7 +651,7 @@ body .m-screen1 .g-ct  #confirmPhone{
     background-size: 100% 100%;
     top:80%;
     left:22.7%;
-    z-index: 10000;
+    z-index: 10001;
 }
 
 
@@ -1091,6 +1090,7 @@ body .page3_send{
     width: 54.69%; /*350/640*/
     top:85%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 /*step3 888时尚大福袋*/
@@ -1341,6 +1341,7 @@ body .page4_send{
     width: 54.69%; /*350/640*/
     top:85%;
     left: 22.7%;
+    z-index: 10001;
 }
 
 
