@@ -193,7 +193,7 @@ app.get('/jsticket', function(req, res){
 })
 
 
-//app.use(authFilter);
+app.use(authFilter);
 var luckybagSeed = 8034540;
 
 /*
