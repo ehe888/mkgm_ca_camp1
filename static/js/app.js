@@ -174,14 +174,24 @@ $(function(){
                 type:'GET',
                 dataType:'json',
                 success:function(response){
-                    console.log(response);
+                    //console.log(response);
                     
-                    if (response[0]) 
-                    {                        
-                        $(".profile2_image").attr("src",response[0].headimgurl);
-                        $(".profile2_shareId").html(response[i].nickname);
-                        $(".profile2").removeClass("f-dn");
-                    };
+                    if($.isArray(response) && response.length > 0){
+                        for(var i=0; i < 4; i++){
+                            if (response[i]) 
+                            {                        
+                                $(".profile" + i + "_image").attr("src",response[i].headimgurl);
+                                $(".profile" + i + "_shareId").html(response[i].nickname);
+                                $(".profile" + i ).removeClass("f-dn");
+                            }
+                        }
+                    }else{
+                        //显示您是第一个抢红包的朋友
+                        
+                    }
+                    
+                    /*
+;
                     if (response[1]) 
                     {                        
                         $(".profile3_image").attr("src",response[0].headimgurl);
@@ -200,6 +210,7 @@ $(function(){
                         $(".profile4_shareId").html(response[i].nickname);
                         $(".profile4").removeClass("f-dn");
                     };
+*/
 
 
                 }
