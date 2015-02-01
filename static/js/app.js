@@ -152,7 +152,19 @@ $(function(){
                 type:'GET',
                 dataType:'json',
                 success:function(response){
-                    //console.log(response);
+                    var shareTitle = response.title;
+                    var shareContent = response.content;
+                    
+                    if(shareTitle.length === 0){
+                        $(".page0_wishCus").removeClass("f-dn");
+                        $("#page0_wishC").html(shareContent);
+                    }  
+                    else{
+                        $(".page0_wishText").removeClass("f-dn");
+                        $("#page0_wishTitle").html(shareTitle);
+                        $("#page0_wish").html(shareContent);
+                    }
+                    
                     $(".profile0_image").attr("src",response.headimgurl);
                     $(".page0_shareId").html(response.nickname);
                 }
@@ -377,25 +389,7 @@ $(function(){
       return numPics[countN];
 
     }
-    //获取分享祝福语
-    var shareTitle = $(".sharedTitle").html().trim();
-    var shareContent = $(".sharedContent").html().trim();
-    if(shareTitle.length == 0){
-        $(".page0_wishCus").removeClass("f-dn");
-        $("#page0_wishC").html(shareContent);
-    }  
-    else{
-        $(".page0_wishText").removeClass("f-dn");
-
-        $("#page0_wishTitle").html(shareTitle);
-        $("#page0_wish").html(shareContent);
-    }
-
-    console.log("title = " + shareTitle + " content = " + shareContent);
-
-
-
-
+    
   
     $("#num1").attr("src",changeNum(count1));
     $("#num2").attr("src",changeNum(count2));
