@@ -609,6 +609,102 @@ body .page0_phoneNumber{
 }
 
 
+body .profile0{
+    position: absolute;
+    top: 32.5%;
+    width: 23%;
+    left: 10%;
+    -webkit-border-radius: 50%;
+    overflow: hidden;    
+}
+
+body .profile1{
+    position: absolute;
+    top:79%;
+    width: 20%;
+    left: 4.5%;
+}
+
+body .profile1_image{
+    width: 80%;
+    -webkit-border-radius: 50%;
+}
+
+body .profile1_shareId{
+    color: #8D8378;
+}
+
+body .profile_txt{
+    color: #8D8378;
+}
+
+body .profile2{
+    position: absolute;
+    top:79%;
+    width: 20%;
+    left: 27.8%;
+}
+
+body .profile2_image{
+    width: 80%;
+    -webkit-border-radius: 50%;
+}
+
+body .profile2_shareId{
+    color: #8D8378;
+}
+
+body .profile3{
+    position: absolute;
+    top:79%;
+    width: 20%;
+    left: 51.8%;
+}
+
+body .profile3_image{
+    width: 80%;
+    -webkit-border-radius: 50%;
+}
+
+body .profile3_shareId{
+    color: #8D8378;
+}
+
+body .profile4{
+    position: absolute;
+    top:79%;
+    width: 20%;
+    left: 76%;
+}
+
+body .profile4_image{
+    width: 80%;
+    -webkit-border-radius: 50%;
+}
+
+body .profile4_shareId{
+    color: #8D8378;
+}
+
+body .profile1_cash{
+    color: #A03A34;
+    font-weight: 700;
+}
+
+body .profile2_cash{
+    color: #A03A34;
+    font-weight: 700;
+}
+
+body .profile3_cash{
+    color: #A03A34;
+    font-weight: 700;
+}
+
+body .profile4_cash{
+    color: #A03A34;
+    font-weight: 700;
+}
 
 /*step2*/
 
