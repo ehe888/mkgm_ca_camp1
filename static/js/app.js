@@ -980,7 +980,7 @@ $(function(){
     }
 
 
-    $(.page4_arrowR).click(function(e){
+    $(".page4_arrowR").click(function(e){
         wishIndex = wishIndex%maxIndex;
 
 
