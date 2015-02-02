@@ -481,64 +481,141 @@ $(function(){
 
 
     // 添加手势箭头
-    var startX,startY;
-    var belt = $("#page1_belt");
-    var beltWidth = 0.2 *screen.width;
+    // var startX,startY;
+    // var belt = $("#page1_belt");
+    // var beltWidth = 0.2 *screen.width;
 
-    var bgHeight = screen.width *960/640;
+    // var bgHeight = screen.width *960/640;
 
-    var pointRightX = parseInt(0.4 * screen.width + beltWidth);
-    var pointX = parseInt(0.4 * screen.width);
-    var pointY = 0.5 * bgHeight;
-    var pointBottomY = pointY + beltWidth*309/134;
-    // console.log(pointBottomY+"y: " + pointY);
-    var arrow = $(".page1_arrowMove");
-    var isSuccess = false;
-    var hammer = new Hammer(document.getElementById('page1_bg'));
-    hammer.on('panstart',function(e){
-        isSuccess = false;
-        // startX = e.center.x;
-        // startY = e.center.y;
-        // arrow.css("display","block");
-        // arrow.css("left",startX);
-        // arrow.css("top",startY);
-        // arrow.css("width",0);   
-        $(".page1_arrow").css("display","none");
+    // var pointRightX = parseInt(0.4 * screen.width + beltWidth);
+    // var pointX = parseInt(0.4 * screen.width);
+    // var pointY = 0.5 * bgHeight;
+    // var pointBottomY = pointY + beltWidth*309/134;
+    // // console.log(pointBottomY+"y: " + pointY);
+    // var arrow = $(".page1_arrowMove");
+    // var isSuccess = false;
+    // var hammer = new Hammer(document.getElementById('page1_bg'));
+    // hammer.on('panstart',function(e){
+    //     isSuccess = false;
+    //     // startX = e.center.x;
+    //     // startY = e.center.y;
+    //     // arrow.css("display","block");
+    //     // arrow.css("left",startX);
+    //     // arrow.css("top",startY);
+    //     // arrow.css("width",0);   
+    //     $(".page1_arrow").css("display","none");
 
-    });
+    // });
 
-    hammer.on('panmove',function(e){
-        oX = e.center.x;
-        oY = e.center.y;
-        dX = oX-startX;
-        dY = oY-startY;
-        var rotate = Math.atan2(dY,dX)*180/Math.PI;
-        arrow.rotate(rotate);
-        // arrow.rotate(90);
-        arrow.css("width",dX>0?dX:-dX);
+    // hammer.on('panmove',function(e){
+    //     oX = e.center.x;
+    //     oY = e.center.y;
+    //     dX = oX-startX;
+    //     dY = oY-startY;
+    //     var rotate = Math.atan2(dY,dX)*180/Math.PI;
+    //     arrow.rotate(rotate);
+    //     // arrow.rotate(90);
+    //     arrow.css("width",dX>0?dX:-dX);
         
 
 
-        if (oX>pointX && oX<pointRightX && (oY>pointY && oY<pointBottomY))
-        {
-            // console.log("tear success");
-            isSuccess = true;
+    //     if (oX>pointX && oX<pointRightX && (oY>pointY && oY<pointBottomY))
+    //     {
+    //         // console.log("tear success");
+    //         isSuccess = true;
+    //     }
+    // });
+    // hammer.on('panend',function(e){
+    //     if(isSuccess)
+    //     {
+    //         tearBag();
+    //         ga('send', 'event', 'CNY-social', 'move', 'click');
+    //     }
+    //     else
+    //     {
+    //         $(".page1_arrow").css("display","block");
+    //     }
+    //     arrow.css("display","none");
+    // });
+
+    //撕开福袋方法
+     var sPoint = {
+        x:0,
+        y:0
+    }
+
+    var ePoint = {
+        x:0,
+        y:0
+    }
+    var isSuccess = false;
+
+    var tearDistance = function(point1,point2){
+        var distanceX = ePoint.x - sPoint.x;
+        var distanceY = ePoint.y - sPoint.y;      
+        console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+        
+    }
+
+
+    var tearEvent = function(e){
+        // console.log(e)
+        var type = e.type;
+        var touch = e.touches[0];
+        switch(type){
+            case "touchstart":
+                
+                sPoint.x = touch.pageX
+                sPoint.y = touch.pageY
+                ePoint.x = touch.pageX
+                ePoint.y = touch.pageY
+                $(".page1_arrow").css("display","none");
+                console.log("s.x:"+sPoint.x+",s.y:"+sPoint.y)
+                break;
+
+            case "touchend":
+              
+                tearDistance(sPoint,ePoint);
+                console.log("e.x:"+ePoint.x+",e.y:"+ePoint.y)
+                tearDirection(sPoint,ePoint);
+                $(".page1_arrow").css("display","block");
+                break;
+
+            case "touchmove":
+                ePoint.x=touch.pageX
+                ePoint.y=touch.pageY
+                break;
+
         }
-    });
-    hammer.on('panend',function(e){
-        if(isSuccess)
-        {
+        
+
+    }
+
+
+    var tearSwiper = document.getElementById("tear");
+    tearSwiper.addEventListener("touchstart",tearEvent);
+    tearSwiper.addEventListener("touchmove",tearEvent);
+    tearSwiper.addEventListener("touchend",tearEvent);    
+
+    var tearDirection = function(sPoint,ePoint){
+        var w = $(window).width();
+        var h = $(window).height();
+        var distanceX = ePoint.x - sPoint.x;
+        var distance = distanceX*distanceX; 
+
+        if(sPoint.y>h/2&&distance>10000){
+            isSuccess = true;
+            console.log("tear success");
+        }
+        if(isSuccess){
             tearBag();
             ga('send', 'event', 'CNY-social', 'move', 'click');
         }
-        else
-        {
+        else{
             $(".page1_arrow").css("display","block");
+            console.log("fail");
         }
-        arrow.css("display","none");
-    });
-
-
+    }
 
 
     /* 微信进入首页 */
@@ -595,7 +672,7 @@ $(function(){
                 // console.log(data);
                 if (data.success) 
                 {
-                    
+
                     console.log("value: "+data.data.value + "code: "+data.data.code);
                     if (data.data.value == 888) 
                     {
@@ -797,7 +874,7 @@ $(function(){
                 wishIndex = wishIndex+maxIndex;
         }
 
-        // console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
+         //console.log("distanceX:"+distanceX+",distanceY:"+distanceY);
         
     }
 
