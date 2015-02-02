@@ -18,7 +18,7 @@ db.pg.defaults.poolSize = 20;
 
 var pg = require('pg');
 //set connection pool size to 20
-pg.defaults.poolSize = 1;
+pg.defaults.poolSize = 20;
 
 var rollback = function(client, done) {
   client.query('ROLLBACK', function(err) {

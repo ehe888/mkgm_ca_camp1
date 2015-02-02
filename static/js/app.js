@@ -272,6 +272,9 @@ $(function(){
                 link: shareUrl, // 分享链接
                 imgUrl: shareImg, // 分享图标
                 success: function () { 
+                    //tracking
+                    ga('send', 'event', 'CNY-friends', 'success', 'click');
+                    
                     // 用户确认分享后执行的回调函数
                     //分享成功后调用后台接口
                     $.ajax({
@@ -301,6 +304,9 @@ $(function(){
                 link: shareUrl, // 分享链接
                 imgUrl:shareImg, // 分享图标
                 success: function () { 
+                    //tracking
+                    ga('send', 'event', 'CNY-social', 'success', 'click');
+                    
                     // 用户确认分享后执行的回调函数
                     $.ajax({
                         url: '/shareInfos',
@@ -982,13 +988,111 @@ $(function(){
          weixinShare();//重新初始化分享接口，动态改变分享描述
     }
 
-
     $(".page4_arrowR").click(function(e){
         wishIndex = wishIndex%maxIndex;
+         switch(wishIndex){
+                case 0:    
+
+                    $(".page4_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page4_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page4_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+
+                    wishIndex =0;
+                    break;
 
 
-
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
     })
+
+    $("page4_arrowL").click(function(e){
+        switch(wishIndex){
+                case 0:
+                    $(".page4_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page4_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page4_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    });
 
 
 
@@ -1182,7 +1286,113 @@ $(function(){
     }
   
 
+    $(".page3_arrowR").click(function(e){
+        wishIndex = wishIndex%maxIndex;
+         switch(wishIndex){
+                case 0:    
 
+                    $(".page3_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page3_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page3_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    
+                    
+                    wishIndex =0;
+                    break;
+
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    });
+
+    $("page3_arrowL").click(function(e){
+        switch(wishIndex){
+                case 0:
+                    $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page3_wishTitle3").addClass("f-ann");
+                     $(".page3_wishTitle1").removeClass("f-ann");
+                     $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                     $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    })
+    
     // 大福袋
      $(".page4_guide").click(function(e){
 
