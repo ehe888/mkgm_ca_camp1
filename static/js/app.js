@@ -178,11 +178,13 @@ $(function(){
                     
                     if($.isArray(response) && response.length > 0){
                         for(var i=0; i < 4; i++){
+                            var j = i+1;
+                            
                             if (response[i]) 
                             {                        
-                                $(".profile" + i + "_image").attr("src",response[i].headimgurl);
-                                $(".profile" + i + "_shareId").html(response[i].nickname);
-                                $(".profile" + i ).removeClass("f-dn");
+                                $(".profile" + j + "_image").attr("src",response[i].headimgurl);
+                                $(".profile" + j + "_shareId").html(response[i].nickname);
+                                $(".profile" + j ).removeClass("f-dn");
                             }
                         }
                     }else{
@@ -249,7 +251,8 @@ $(function(){
         jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
     //分享各个参数初始化
-    var shareUrl = "http://" + window.location.host + "?sharedby="+openid + "&shareid=" + shareid,
+    var shareUrl = "http://" + window.location.host + "?sharedby=" + openid 
+                + "&shareid=" + shareid + "&utm_source=share&utm_medium=share&utm_campaign=CNYsocial",
         shareImg = "http://" + window.location.host + '/images/page1_bg.jpg',
         random = Math.random(),
         title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
@@ -269,6 +272,9 @@ $(function(){
                 link: shareUrl, // 分享链接
                 imgUrl: shareImg, // 分享图标
                 success: function () { 
+                    //tracking
+                    ga('send', 'event', 'CNY-friends', 'success', 'click');
+                    
                     // 用户确认分享后执行的回调函数
                     //分享成功后调用后台接口
                     $.ajax({
@@ -298,6 +304,9 @@ $(function(){
                 link: shareUrl, // 分享链接
                 imgUrl:shareImg, // 分享图标
                 success: function () { 
+                    //tracking
+                    ga('send', 'event', 'CNY-social', 'success', 'click');
+                    
                     // 用户确认分享后执行的回调函数
                     $.ajax({
                         url: '/shareInfos',
@@ -979,13 +988,111 @@ $(function(){
          weixinShare();//重新初始化分享接口，动态改变分享描述
     }
 
-
     $(".page4_arrowR").click(function(e){
         wishIndex = wishIndex%maxIndex;
+         switch(wishIndex){
+                case 0:    
+
+                    $(".page4_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page4_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page4_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInLeft1");
+
+                    wishIndex =0;
+                    break;
 
 
-
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
     })
+
+    $("page4_arrowL").click(function(e){
+        switch(wishIndex){
+                case 0:
+                    $(".page4_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle2").addClass("f-ann");
+                    $(".page4_wishTitle3").removeClass("f-ann");
+                    $(".page4_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page4_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page4_wishTitle3").addClass("f-ann");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page4_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").addClass("f-ann");
+                    $(".page4_wishTitle2").removeClass("f-ann");
+                    $(".page4_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page4_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page4_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page4_wishTitle1").removeClass("f-ann");
+                    $(".page4_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    });
 
 
 
@@ -1179,7 +1286,113 @@ $(function(){
     }
   
 
+    $(".page3_arrowR").click(function(e){
+        wishIndex = wishIndex%maxIndex;
+         switch(wishIndex){
+                case 0:    
 
+                    $(".page3_wishTitle1").addClass("animated fadeOutRight1");
+                    
+
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle3").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+
+                               
+                    break;
+
+                case 1:
+
+                    $(".page3_wishTitle2").addClass("animated fadeOutRight1");
+                    
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    
+                    wishIndex++;
+                    
+                    break;
+
+                case 2:
+
+                    $(".page3_wishTitle3").addClass("animated fadeOutRight1");
+                   
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                   
+                    wishIndex++;
+                    break;
+
+                default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutRight1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInLeft1");
+                    
+                    
+                    wishIndex =0;
+                    break;
+
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    });
+
+    $("page3_arrowL").click(function(e){
+        switch(wishIndex){
+                case 0:
+                    $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle2").addClass("f-ann");
+                    $(".page3_wishTitle3").removeClass("f-ann");
+                    $(".page3_wishTitle3").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+                    wishIndex--;
+                    break;
+
+                case 1:
+                     $(".page3_wishTitle2").addClass("animated fadeOutLeft1");
+                     $(".page3_wishTitle3").addClass("f-ann");
+                     $(".page3_wishTitle1").removeClass("f-ann");
+                     $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                     $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                case 2:
+                    $(".page3_wishTitle3").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").addClass("f-ann");
+                    $(".page3_wishTitle2").removeClass("f-ann");
+                    $(".page3_wishTitle2").addClass("animated fadeInRight1");
+                    $(".page3_wishTitleC").addClass("f-ann");
+
+                    wishIndex--;
+                    break;
+
+                 default:
+                    $(".page3_wishTitleC").addClass("animated fadeOutLeft1");
+                    $(".page3_wishTitle1").removeClass("f-ann");
+                    $(".page3_wishTitle1").addClass("animated fadeInRight1");
+                    
+                    wishIndex = 0;
+                    
+                    break;
+
+            }
+            if(wishIndex>-100&&wishIndex<0){
+                wishIndex = wishIndex+maxIndex;
+            }
+            weixinShare();//重新初始化分享接口，动态改变分享描述
+    })
+    
     // 大福袋
      $(".page4_guide").click(function(e){
 

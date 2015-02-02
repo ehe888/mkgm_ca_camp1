@@ -18,7 +18,7 @@ db.pg.defaults.poolSize = 20;
 
 var pg = require('pg');
 //set connection pool size to 20
-pg.defaults.poolSize = 1;
+pg.defaults.poolSize = 20;
 
 var rollback = function(client, done) {
   client.query('ROLLBACK', function(err) {
@@ -42,7 +42,7 @@ global.retriev_lock = 0; //lock the process to retriev ticket
 
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
-    console.log("Request for " + pathname + " received.");
+    console.log("Request for " + req.url + " received.");
     
     if(pathname && pathname.indexOf('wxoauth_callback') > -1){
         return next();
@@ -54,7 +54,7 @@ var authFilter = function(req, res, next){
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
             + config.wxAppId + "&redirect_uri=" 
-            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
             +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
     }
     
@@ -77,7 +77,7 @@ var authFilter = function(req, res, next){
                 //else need redirect to weixin for auth
                 return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
                     + config.wxAppId + "&redirect_uri=" 
-                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
                     +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
             }
         //output: 1
@@ -300,8 +300,8 @@ app.get('/', function(req, res, next) {
 
 
 app.get('/wxoauth_callback', function(req, res, next){
-     
-    console.log("Callback request query: " + req.query);
+    var redirectUrl = urlencode.decode(req.query.redirect);
+    console.log("OAuth Redirect Callback redirect url : " + redirectUrl);
     
     var accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" 
         + config.wxAppId + "&secret=" + config.wxAppSecret 
@@ -376,7 +376,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                                 if(err) return rollback(client, done);
                                                 client.query('COMMIT', done);
                                                 console.log("Reset openid in cookie : " + openid);
-                                                return res.redirect(req.query.redirect);
+                                                return res.redirect(redirectUrl);
                                         });
                                     });
                                 });
@@ -401,7 +401,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                                 if(err) return rollback(client, done);
                                                 client.query('COMMIT', done);
                                                 console.log("Reset openid in cookie : " + openid);
-                                                return res.redirect(req.query.redirect);
+                                                return res.redirect(redirectUrl);
                                         });
                                     });
                                 });
@@ -506,8 +506,10 @@ app.post('/lottery', function(req, res, next){
                     return next(err);
                 }
                 
-                client.query('update lottery_record set mobile = $1::text,used = true,openid = $2::text,sharedby = $3::text where id = (select id from lottery_record where used = false limit 1) returning *',
-                    [input.mobile, input.openid, input.sharedby],function(err, result){
+                client.query('update lottery_record set mobile = $1::text,used = true,' 
+                        + 'openid = $2::text,sharedby = $3::text,shareid=$4::text ' 
+                        + 'where id = (select id from lottery_record where used = false limit 1) returning *',
+                    [input.mobile, input.openid, input.sharedby, input.shareid ],function(err, result){
                     done();
         	        if(err) {  
         	          console.error('error running query', err);
