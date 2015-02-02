@@ -178,11 +178,13 @@ $(function(){
                     
                     if($.isArray(response) && response.length > 0){
                         for(var i=0; i < 4; i++){
+                            var j = i+1;
+                            
                             if (response[i]) 
                             {                        
-                                $(".profile" + i+1 + "_image").attr("src",response[i].headimgurl);
-                                $(".profile" + i+1 + "_shareId").html(response[i].nickname);
-                                $(".profile" + i+1 ).removeClass("f-dn");
+                                $(".profile" + j + "_image").attr("src",response[i].headimgurl);
+                                $(".profile" + j + "_shareId").html(response[i].nickname);
+                                $(".profile" + j ).removeClass("f-dn");
                             }
                         }
                     }else{
