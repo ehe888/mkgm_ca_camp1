@@ -42,7 +42,7 @@ global.retriev_lock = 0; //lock the process to retriev ticket
 
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
-    console.log("Request for " + pathname + " received.");
+    console.log("Request for " + req.url + " received.");
     
     if(pathname && pathname.indexOf('wxoauth_callback') > -1){
         return next();
