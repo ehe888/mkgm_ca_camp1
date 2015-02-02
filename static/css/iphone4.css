@@ -207,8 +207,8 @@ body .page0_shareId{
 
 body .profile0{
     position: absolute;
-    top: 29.5%;
-    width: 23%;
+    top: 29.2%;
+    width: 22.5%;
     left: 10%;
     -webkit-border-radius: 50%;
     overflow: hidden;    
@@ -216,30 +216,37 @@ body .profile0{
 
 body .profile1{
     position: absolute;
-    top:70%;
+    top:73%;
     width: 20%;
     left: 4.5%;
 }
 
 body .profile2{
     position: absolute;
-    top:70%;
+    top:73%;
     width: 20%;
     left: 27.8%;
 }
 
 body .profile3{
     position: absolute;
-    top:70%;
+    top:73%;
     width: 20%;
     left: 51.8%;
 }
 
 body .profile4{
     position: absolute;
-    top:70%;
+    top:73%;
     width: 20%;
     left: 76%;
+}
+
+body .page0_firstA{
+    position: absolute;
+    width:82.81%; /*530/640*/
+    top: 78%;
+    left: 8%;
 }
 
 /*首页*/
@@ -886,6 +893,11 @@ body .activity_btn{
     top: 93%;
 }
 index: 10001;
+
+
+
+
+
 
 
 
