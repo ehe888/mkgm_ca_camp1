@@ -159,7 +159,7 @@ Copyright (c) 2014 Daniel Eden
             transform: scale3d(1, 1, 1);
   }
   
-  
+
   50% {
     -webkit-transform: scale3d(1.15, 1.15, 1.15);
             transform: scale3d(1.15, 1.15, 1.15);
@@ -683,8 +683,8 @@ Copyright (c) 2014 Daniel Eden
 .wobble {
   -webkit-animation-name: wobble;
           animation-name: wobble;
-          animation-duration: 3s !important;
-  -webkit-animation-duration: 3s !important; 
+          animation-duration: 2.5s !important;
+  -webkit-animation-duration: 2.5s !important; 
 }
 
 
@@ -953,7 +953,7 @@ Copyright (c) 2014 Daniel Eden
 }
 
 @-webkit-keyframes bounceIn3 {
-  0%, 3%, 6%, 9%, 12%, 15% {
+  0%, 5%, 10%, 15%, 20%, 25% {
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
             transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -964,33 +964,33 @@ Copyright (c) 2014 Daniel Eden
             transform: scale3d(.3, .3, .3);
   }
 
-  2% {
+  5% {
     -webkit-transform: scale3d(1.1, 1.1, 1.1);
             transform: scale3d(1.1, 1.1, 1.1);
   }
 
-  6% {
+  10% {
     -webkit-transform: scale3d(.9, .9, .9);
             transform: scale3d(.9, .9, .9);
   }
 
-  9% {
+  15% {
     opacity: 1;
     -webkit-transform: scale3d(1.03, 1.03, 1.03);
             transform: scale3d(1.03, 1.03, 1.03);
   }
 
-  12% {
+  20% {
     -webkit-transform: scale3d(.97, .97, .97);
             transform: scale3d(.97, .97, .97);
   }
 
-  15% {
+  25% {
     opacity: 1;
     -webkit-transform: scale3d(1, 1, 1);
             transform: scale3d(1, 1, 1);
   }
-  70%{
+  80%{
     opacity: 1;
   }
   100%{
@@ -1595,8 +1595,8 @@ Copyright (c) 2014 Daniel Eden
 
   0% {
     opacity: 0;
-    -webkit-transform: translate3d(0, 200px, 0);
-            transform: translate3d(0, 200px, 0);
+    -webkit-transform: translate3d(0, 100px, 0);
+            transform: translate3d(0, 100px, 0);
   }
 
   12% {
@@ -1630,8 +1630,8 @@ Copyright (c) 2014 Daniel Eden
 
   0% {
     opacity: 0;
-    -webkit-transform: translate3d(0, 200px, 0);
-            transform: translate3d(0, 200px, 0);
+    -webkit-transform: translate3d(0, 80px, 0);
+            transform: translate3d(0, 80px, 0);
   }
 
   60% {
