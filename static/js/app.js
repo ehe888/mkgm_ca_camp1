@@ -187,7 +187,7 @@ $(function(){
                         }
                     }else{
                         //显示您是第一个抢红包的朋友
-                        $(".page0_firstA")removeClass("f-dn");
+                        $(".page0_firstA").removeClass("f-dn");
                         
                     }
                     
@@ -982,7 +982,7 @@ $(function(){
 
     $(.page4_arrowR).click(function(e){
         wishIndex = wishIndex%maxIndex;
-        
+
 
 
     })
