@@ -1394,20 +1394,41 @@ body #wish3_2{
 }*/
 
 
+
+
 body .page4_arrowL{
     position: absolute;
-    width: 4.375%; /*28/640*/
-    top: 62%;
+    width: 10%; 
+    height: 20%;
+    top: 58%;
     left: 8%;
     z-index: 10001;
 
 }
 
+body .page4_AL{
+    position: absolute;
+    width: 44.375%; /*28/640*/
+    top: 12%;
+    left: 0%;
+    z-index: 10001;
+}
+
 body .page4_arrowR{
     position: absolute;
-    width: 4.375%; /*28/640*/
-    top: 62%;
+    width: 10%; 
+    height: 20%;
+    top: 58%;
     left: 85%;
+    z-index: 10001;
+    
+}
+
+body .page4_AR{
+    position: absolute;
+    width: 44.375%; /*28/640*/
+    top: 12%;
+    left: 0%;
     z-index: 10001;
 }
 

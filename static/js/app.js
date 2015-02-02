@@ -595,6 +595,7 @@ $(function(){
                 // console.log(data);
                 if (data.success) 
                 {
+                    
                     console.log("value: "+data.data.value + "code: "+data.data.code);
                     if (data.data.value == 888) 
                     {
