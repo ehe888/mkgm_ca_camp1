@@ -253,7 +253,7 @@ $(function(){
     //分享各个参数初始化
     var shareUrl = "http://" + window.location.host + "?sharedby=" + openid 
                 + "&shareid=" + shareid + "&utm_source=share&utm_medium=share&utm_campaign=CNYsocial",
-        shareImg = "http://" + window.location.host + '/images/page1_bg.jpg',
+        shareImg = "http://" + window.location.host + '/images/icon.jpg',
         random = Math.random(),
         title = random<0.5?'福袋已打包送到，我真的只能帮你到这儿了…':'福袋很多~可是抢抢也是会没了！你可以不着急，但真的得赶紧抢呀~';
     

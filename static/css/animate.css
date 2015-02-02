@@ -951,6 +951,105 @@ Copyright (c) 2014 Daniel Eden
           animation-duration: 3.5s !important;
 }
 
+@-webkit-keyframes bounceIn3 {
+  0%, 3%, 6%, 9%, 12%, 15% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3);
+  }
+
+  2% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  6% {
+    -webkit-transform: scale3d(.9, .9, .9);
+            transform: scale3d(.9, .9, .9);
+  }
+
+  9% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  12% {
+    -webkit-transform: scale3d(.97, .97, .97);
+            transform: scale3d(.97, .97, .97);
+  }
+
+  15% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  70%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
+@keyframes bounceIn3 {
+  0%, 3%, 6%, 9%, 12%, 15% {
+    -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+            transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+  }
+
+  0% {
+    opacity: 0;
+    -webkit-transform: scale3d(.3, .3, .3);
+            transform: scale3d(.3, .3, .3);
+  }
+
+  2% {
+    -webkit-transform: scale3d(1.1, 1.1, 1.1);
+            transform: scale3d(1.1, 1.1, 1.1);
+  }
+
+  6% {
+    -webkit-transform: scale3d(.9, .9, .9);
+            transform: scale3d(.9, .9, .9);
+  }
+
+  9% {
+    opacity: 1;
+    -webkit-transform: scale3d(1.03, 1.03, 1.03);
+            transform: scale3d(1.03, 1.03, 1.03);
+  }
+
+  12% {
+    -webkit-transform: scale3d(.97, .97, .97);
+            transform: scale3d(.97, .97, .97);
+  }
+
+  15% {
+    opacity: 1;
+    -webkit-transform: scale3d(1, 1, 1);
+            transform: scale3d(1, 1, 1);
+  }
+  70%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 0;
+  }
+}
+
+.bounceIn3 {
+  -webkit-animation-name: bounceIn3;
+          animation-name: bounceIn3;
+  -webkit-animation-duration: 2.5s !important;
+          animation-duration: 2.5s !important;
+}
+
 @-webkit-keyframes bounceInDown {
   0%, 60%, 75%, 90%, 100% {
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
@@ -1248,7 +1347,7 @@ Copyright (c) 2014 Daniel Eden
 
 
 @-webkit-keyframes bounceInUp1 {
-  0%, 60%, 75%, 90%, 100% {
+  0%, 12%, 15%, 18%, 20% {
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
             transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -1259,23 +1358,23 @@ Copyright (c) 2014 Daniel Eden
             transform: translate3d(0, 20px, 0);
   }
 
-  60% {
+  12% {
     opacity: 1;
     -webkit-transform: translate3d(0, -7px, 0);
             transform: translate3d(0, -7px, 0);
   }
 
-  75% {
+  15% {
     -webkit-transform: translate3d(0, 4px, 0);
             transform: translate3d(0, 4px, 0);
   }
 
-  90% {
+  18% {
     -webkit-transform: translate3d(0, -4px, 0);
             transform: translate3d(0, -4px, 0);
   }
 
-  100% {
+  20% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
   }
@@ -1318,6 +1417,8 @@ Copyright (c) 2014 Daniel Eden
 .bounceInUp1 {
   -webkit-animation-name: bounceInUp1;
           animation-name: bounceInUp1;
+  -webkit-animation-duration:2.5s !important;      
+          animation-duration:2.5s !important;    
 }
 
 .bounceInUp {
@@ -1409,7 +1510,7 @@ Copyright (c) 2014 Daniel Eden
 
 
 @-webkit-keyframes bounceInUp2 {
-  0%, 60%, 75%, 90%, 100% {
+  0%, 12%, 15%, 18%, 20% {
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
             transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -1420,23 +1521,23 @@ Copyright (c) 2014 Daniel Eden
             transform: translate3d(0, 50px, 0);
   }
 
-  60% {
+  12% {
     opacity: 1;
     -webkit-transform: translate3d(0, -20px, 0);
             transform: translate3d(0, -20px, 0);
   }
 
-  75% {
+  15% {
     -webkit-transform: translate3d(0, 10px, 0);
             transform: translate3d(0, 10px, 0);
   }
 
-  90% {
+  18% {
     -webkit-transform: translate3d(0, -10px, 0);
             transform: translate3d(0, -10px, 0);
   }
 
-  100% {
+  20% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
   }
@@ -1479,14 +1580,14 @@ Copyright (c) 2014 Daniel Eden
 .bounceInUp2 {
   -webkit-animation-name: bounceInUp2;
           animation-name: bounceInUp2;
-  -webkit-animation-duration: 0.5s !important;
-          animation-duration: 0.5s !important;
+  -webkit-animation-duration: 2.5s !important;
+          animation-duration: 2.5s !important;
           
           
 }
 
 @-webkit-keyframes bounceInUp3 {
-  0%, 60%, 75%, 90%, 100% {
+  0%, 12%, 15%, 18%, 20% {
     -webkit-transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
             transition-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
   }
@@ -1497,26 +1598,27 @@ Copyright (c) 2014 Daniel Eden
             transform: translate3d(0, 200px, 0);
   }
 
-  60% {
+  12% {
     opacity: 1;
     -webkit-transform: translate3d(0, -20px, 0);
             transform: translate3d(0, -20px, 0);
   }
 
-  75% {
+  15% {
     -webkit-transform: translate3d(0, 10px, 0);
             transform: translate3d(0, 10px, 0);
   }
 
-  90% {
+  18% {
     -webkit-transform: translate3d(0, -10px, 0);
             transform: translate3d(0, -10px, 0);
   }
 
-  100% {
+  20% {
     -webkit-transform: translate3d(0, 0, 0);
             transform: translate3d(0, 0, 0);
   }
+
 }
 
 @keyframes bounceInUp3 {
@@ -1556,8 +1658,8 @@ Copyright (c) 2014 Daniel Eden
 .bounceInUp3 {
   -webkit-animation-name: bounceInUp3;
           animation-name: bounceInUp3;
-  -webkit-animation-duration: 0.5s !important;
-          animation-duration: 0.5s !important;
+  -webkit-animation-duration: 2.5s !important;
+          animation-duration: 2.5s !important;
           
           
 }
