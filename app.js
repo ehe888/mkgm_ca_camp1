@@ -54,7 +54,7 @@ var authFilter = function(req, res, next){
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
             + config.wxAppId + "&redirect_uri=" 
-            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+            + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
             +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
     }
     
@@ -300,8 +300,8 @@ app.get('/', function(req, res, next) {
 
 
 app.get('/wxoauth_callback', function(req, res, next){
-     
-    console.log("Callback request query: " + req.query);
+    var redirectUrl = urlencode.decode(req.query.redirect);
+    console.log("OAuth Redirect Callback redirect url : " + redirectUrl);
     
     var accessTokenUrl = "https://api.weixin.qq.com/sns/oauth2/access_token?appid=" 
         + config.wxAppId + "&secret=" + config.wxAppSecret 
@@ -376,7 +376,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                                 if(err) return rollback(client, done);
                                                 client.query('COMMIT', done);
                                                 console.log("Reset openid in cookie : " + openid);
-                                                return res.redirect(req.query.redirect);
+                                                return res.redirect(redirectUrl);
                                         });
                                     });
                                 });
@@ -401,7 +401,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                                 if(err) return rollback(client, done);
                                                 client.query('COMMIT', done);
                                                 console.log("Reset openid in cookie : " + openid);
-                                                return res.redirect(req.query.redirect);
+                                                return res.redirect(redirectUrl);
                                         });
                                     });
                                 });
