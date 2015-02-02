@@ -77,7 +77,7 @@ var authFilter = function(req, res, next){
                 //else need redirect to weixin for auth
                 return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
                     + config.wxAppId + "&redirect_uri=" 
-                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
+                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
                     +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
             }
         //output: 1
