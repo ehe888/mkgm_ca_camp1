@@ -187,6 +187,7 @@ $(function(){
                         }
                     }else{
                         //显示您是第一个抢红包的朋友
+                        $(".page0_firstA").removeClass("f-dn");
                         
                     }
                     
@@ -977,6 +978,17 @@ $(function(){
             }
          weixinShare();//重新初始化分享接口，动态改变分享描述
     }
+
+
+    $(".page4_arrowR").click(function(e){
+        wishIndex = wishIndex%maxIndex;
+
+
+
+    })
+
+
+
 
    //普通福袋祝福语
 
