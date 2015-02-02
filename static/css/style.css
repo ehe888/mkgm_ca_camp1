@@ -243,6 +243,7 @@ body .page1_info{
     width: 17.8125%; /*114/640*/
 
     top:2.3%;
+    z-index: 10001;
 }
 
 body .page1_fire{
@@ -1125,7 +1126,8 @@ body .page3_arrowL{
     position: absolute;
     width: 4.375%; /*28/640*/
     top: 62%;
-    left: 8%
+    left: 8%;
+    z-index: 10001;
 
 }
 
@@ -1134,6 +1136,7 @@ body .page3_arrowR{
     width: 4.375%; /*28/640*/
     top: 62%;
     left: 85%;
+    z-index: 10001;
     
 }
 
@@ -1377,7 +1380,8 @@ body .page4_arrowL{
     position: absolute;
     width: 4.375%; /*28/640*/
     top: 62%;
-    left: 8%
+    left: 8%;
+    z-index: 10001;
 
 }
 
@@ -1386,7 +1390,7 @@ body .page4_arrowR{
     width: 4.375%; /*28/640*/
     top: 62%;
     left: 85%;
-    
+    z-index: 10001;
 }
 
 body .page4_cus{

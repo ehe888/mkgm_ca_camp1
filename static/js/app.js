@@ -463,10 +463,7 @@ $(function(){
          ga('send', 'event', 'CNY-social', 'move', 'click');
          //$('.m-screen0').addClass("f-dn");
          $('.m-screen1').removeClass("f-dn");
-         $(".m-screen1").addClass("animated f-ad1 fadeInUp1");   
-
-
-         
+         $(".m-screen1").addClass("animated f-ad1 fadeInUp1");            
          $(".m-screen1").find(".animated").removeClass("f-ann")
     });
 
@@ -990,6 +987,23 @@ $(function(){
 
     $(".page4_arrowR").click(function(e){
         wishIndex = wishIndex%maxIndex;
+        $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitle2").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle2").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitle3").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle3").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitleC").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitleC").removeClass("animated fadeInLeft1");
+
+        $(".page4_wishTitle1").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle1").removeClass("animated fadeInRight1");
+        $(".page4_wishTitle2").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle2").removeClass("animated fadeInRight1");
+        $(".page4_wishTitle3").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle3").removeClass("animated fadeInRight1");
+        $(".page4_wishTitleC").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitleC").removeClass("animated fadeInRight1");
          switch(wishIndex){
                 case 0:    
 
@@ -1035,7 +1049,8 @@ $(function(){
                     $(".page4_wishTitleC").addClass("animated fadeOutRight1");
                     $(".page4_wishTitle1").removeClass("f-ann");
                     $(".page4_wishTitle1").addClass("animated fadeInLeft1");
-
+                    
+                    
                     wishIndex =0;
                     break;
 
@@ -1047,7 +1062,25 @@ $(function(){
             weixinShare();//重新初始化分享接口，动态改变分享描述
     })
 
-    $("page4_arrowL").click(function(e){
+    $(".page4_arrowL").click(function(e){
+        wishIndex = wishIndex%maxIndex;
+        $(".page4_wishTitle1").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle1").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitle2").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle2").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitle3").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitle3").removeClass("animated fadeInLeft1");
+        $(".page4_wishTitleC").removeClass("animated fadeOutRight1");
+        $(".page4_wishTitleC").removeClass("animated fadeInLeft1");
+
+        $(".page4_wishTitle1").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle1").removeClass("animated fadeInRight1");
+        $(".page4_wishTitle2").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle2").removeClass("animated fadeInRight1");
+        $(".page4_wishTitle3").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitle3").removeClass("animated fadeInRight1");
+        $(".page4_wishTitleC").removeClass("animated fadeOutLeft1");
+        $(".page4_wishTitleC").removeClass("animated fadeInRight1");
         switch(wishIndex){
                 case 0:
                     $(".page4_wishTitle1").addClass("animated fadeOutLeft1");
@@ -1092,7 +1125,7 @@ $(function(){
                 wishIndex = wishIndex+maxIndex;
             }
             weixinShare();//重新初始化分享接口，动态改变分享描述
-    });
+    })
 
 
 
@@ -1288,6 +1321,25 @@ $(function(){
 
     $(".page3_arrowR").click(function(e){
         wishIndex = wishIndex%maxIndex;
+                console.log("右箭头");
+                console.log(index = wishIndex);
+                $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
+                $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
+                $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
+                $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
+                $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
+                $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
+                $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
+                $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
+
+                $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
+                $(".page3_wishTitle1").removeClass("animated fadeInRight1");
+                $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
+                $(".page3_wishTitle2").removeClass("animated fadeInRight1");
+                $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
+                $(".page3_wishTitle3").removeClass("animated fadeInRight1");
+                $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
+                $(".page3_wishTitleC").removeClass("animated fadeInRight1");
          switch(wishIndex){
                 case 0:    
 
@@ -1344,9 +1396,29 @@ $(function(){
                 wishIndex = wishIndex+maxIndex;
             }
             weixinShare();//重新初始化分享接口，动态改变分享描述
-    });
+    })
 
-    $("page3_arrowL").click(function(e){
+    $(".page3_arrowL").click(function(e){
+        wishIndex = wishIndex%maxIndex;
+        console.log("左箭头");
+        console.log(index = wishIndex);
+        $(".page3_wishTitle1").removeClass("animated fadeOutRight1");
+        $(".page3_wishTitle1").removeClass("animated fadeInLeft1");
+        $(".page3_wishTitle2").removeClass("animated fadeOutRight1");
+        $(".page3_wishTitle2").removeClass("animated fadeInLeft1");
+        $(".page3_wishTitle3").removeClass("animated fadeOutRight1");
+        $(".page3_wishTitle3").removeClass("animated fadeInLeft1");
+        $(".page3_wishTitleC").removeClass("animated fadeOutRight1");
+        $(".page3_wishTitleC").removeClass("animated fadeInLeft1");
+
+        $(".page3_wishTitle1").removeClass("animated fadeOutLeft1");
+        $(".page3_wishTitle1").removeClass("animated fadeInRight1");
+        $(".page3_wishTitle2").removeClass("animated fadeOutLeft1");
+        $(".page3_wishTitle2").removeClass("animated fadeInRight1");
+        $(".page3_wishTitle3").removeClass("animated fadeOutLeft1");
+        $(".page3_wishTitle3").removeClass("animated fadeInRight1");
+        $(".page3_wishTitleC").removeClass("animated fadeOutLeft1");
+        $(".page3_wishTitleC").removeClass("animated fadeInRight1");
         switch(wishIndex){
                 case 0:
                     $(".page3_wishTitle1").addClass("animated fadeOutLeft1");
