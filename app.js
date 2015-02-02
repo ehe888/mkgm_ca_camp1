@@ -506,8 +506,10 @@ app.post('/lottery', function(req, res, next){
                     return next(err);
                 }
                 
-                client.query('update lottery_record set mobile = $1::text,used = true,openid = $2::text,sharedby = $3::text where id = (select id from lottery_record where used = false limit 1) returning *',
-                    [input.mobile, input.openid, input.sharedby],function(err, result){
+                client.query('update lottery_record set mobile = $1::text,used = true,' 
+                        + 'openid = $2::text,sharedby = $3::text,shareid=$4::text ' 
+                        + 'where id = (select id from lottery_record where used = false limit 1) returning *',
+                    [input.mobile, input.openid, input.sharedby, input.shareid ],function(err, result){
                     done();
         	        if(err) {  
         	          console.error('error running query', err);
