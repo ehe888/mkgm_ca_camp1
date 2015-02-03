@@ -333,7 +333,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                         }
                         var rows = result.rows;
                         
-                        console.log("get userinfo from db : " + rows);
+                        
                         if(rows.length > 0 ){
                             pg.connect(conString, function(err, client, done) {
                                 if(err) {
@@ -350,6 +350,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                                             city, country, headimgurl, privilege, 
                                             unionid, access_token, refresh_token, openid], 
                                             function(err) {
+                                                console.log("get openid from db : " + openid);
                                                 if(err) return rollback(client, done);
                                                 client.query('COMMIT', done);
                                                 console.log("Reset openid in cookie : " + openid);
