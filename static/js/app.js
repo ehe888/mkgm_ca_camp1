@@ -372,13 +372,13 @@ $(function(){
         $(".page0_ip4").attr("src", "images/page0_bg_origin.jpg");
         $(".page1_ip4").attr("src", "images/page1_bg_origin.jpg");
         $(".page2_ip4").attr("src", "images/page2_bg_origin.jpg");
-        $(".page3_ip4").attr("src", "images/page3_bg_origin2.jpg");
-        $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
+        $(".page3_ip4").attr("src", "images/page3_bg_origin.jpg");
+        $(".page4_ip4").attr("src", "images/page3_bg_origin.jpg");
         $(".loading_ip4").attr("src","images/loading_image.jpg");
-        $(".usedNumber").attr("src","images/usedNumber_origin.png");
+        $(".usedNumber_ip4").attr("src","images/usedNumber_origin.png");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
         $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
-        $(".lateInfo").attr("src","images/lageInfo_origin.png");
+        $(".lateInfo_ip4").attr("src","images/lageInfo_origin.png");
 
 
     };
