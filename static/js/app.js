@@ -92,6 +92,9 @@ function loadimg(pics, progressCallBack, completeCallback) {
     };
 }
 
+//字体自适应
+window.onresize=adaptive;
+
 $(function(){
     /*
      * 图片预加载
@@ -106,12 +109,19 @@ $(function(){
         firstPrize = 1,
         usedNumber = 0,
         tooLate = 0;
-
+        
     var wishIndex = 0;
     var pics = new Array();
-
-    //字体自适应
-    window.onresize=adaptive;
+    //cookie中获取微信config需要的参数，后台给
+    var jsapiTicket = $.cookie("jsticket"),
+        openid = $.cookie("openid"),
+        shareid = openid + '_' + Date.now(),
+        jsapiElements = jsapiTicket.split(","),
+        jsapiAppId = jsapiElements[0],
+        jsapiTimestamp = parseInt(jsapiElements[1]),
+        jsapiNonceStr = jsapiElements[2],
+        jsapiSignature = jsapiElements[3];
+    
     
 
      //自定义祝福语
@@ -144,6 +154,38 @@ $(function(){
     },function(){
         adaptive();
         $(".loading_page").remove();
+        //get lucky bag count
+        $.ajax({
+            url:'/luckybag',
+            type:'GET',
+            dataType:'json',
+            success:function(response){
+                var luckyCount = response.lotterycount;
+                var count = [0, 0, 0, 0, 0, 0, 0];
+                for(var i=0; i<7; i++){
+                    count[i] = parseInt(luckyCount/Math.pow(10, 6-i)) % 10;
+                }
+                
+                var numPics = ["images/0.png","images/1.png","images/2.png","images/3.png","images/4.png","images/5.png","images/6.png","images/7.png","images/8.png","images/9.png"];
+
+                for(var i=0; i<7; i++){
+                    var j=i+1;
+                    
+                    $("#num" + j).attr("src",numPics[count[i]]);
+                    $("#num2" + j).attr("src",numPics[count[i]]);
+                }
+            }
+        });
+        
+        //微信config
+        wx.config({
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+            appId: jsapiAppId, // 必填，公众号的唯一标识
+            timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
+            nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
+            signature: jsapiSignature,// 必填，签名，见附录1
+            jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        });
         if(weixin === 1){
             $(".m-screen01").removeClass("f-dn");
             //获取原分享人头像
@@ -184,6 +226,7 @@ $(function(){
                             {                        
                                 $(".profile" + j + "_image").attr("src",response[i].headimgurl);
                                 $(".profile" + j + "_shareId").html(response[i].nickname);
+                                $(".profile" + j + "_cash").html(response[i].value);
                                 $(".profile" + j ).removeClass("f-dn");
                             }
                         }
@@ -192,30 +235,6 @@ $(function(){
                         $(".page0_firstA").removeClass("f-dn");
                         
                     }
-                    
-                    /*
-;
-                    if (response[1]) 
-                    {                        
-                        $(".profile3_image").attr("src",response[0].headimgurl);
-                        $(".profile3_shareId").html(response[i].nickname);
-                        $(".profile3").removeClass("f-dn");
-                    };
-                    if (response[2]) 
-                    {                        
-                        $(".profile1_image").attr("src",response[0].headimgurl);
-                        $(".profile1_shareId").html(response[i].nickname);
-                        $(".profile1").removeClass("f-dn");
-                    };
-                    if (response[3]) 
-                    {                        
-                        $(".profile4_image").attr("src",response[0].headimgurl);
-                        $(".profile4_shareId").html(response[i].nickname);
-                        $(".profile4").removeClass("f-dn");
-                    };
-*/
-
-
                 }
 
             });
@@ -232,24 +251,8 @@ $(function(){
 
     });
     
-    //cookie中获取微信config需要的参数，后台给
-    var jsapiTicket = $.cookie("jsticket"),
-        openid = $.cookie("openid"),
-        shareid = openid + '_' + Date.now(),
-        jsapiElements = jsapiTicket.split(","),
-        jsapiAppId = jsapiElements[0],
-        jsapiTimestamp = parseInt(jsapiElements[1]),
-        jsapiNonceStr = jsapiElements[2],
-        jsapiSignature = jsapiElements[3];
-    //微信config
-    wx.config({
-        debug: true, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
-        appId: jsapiAppId, // 必填，公众号的唯一标识
-        timestamp: jsapiTimestamp, // 必填，生成签名的时间戳
-        nonceStr: jsapiNonceStr, // 必填，生成签名的随机串
-        signature: jsapiSignature,// 必填，签名，见附录1
-        jsApiList: ["onMenuShareTimeline","onMenuShareAppMessage","chooseImage","uploadImage","downloadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
-    });
+    
+    
     //分享各个参数初始化
     var shareUrl = "http://" + window.location.host + "?sharedby=" + openid 
                 + "&shareid=" + shareid + "&utm_source=share&utm_medium=share&utm_campaign=CNYsocial",
@@ -391,43 +394,7 @@ $(function(){
 
     $(window).on('touchmove.scroll', function (e) {e.preventDefault();});
     $(window).on('scroll.scroll',function (e) {e.preventDefault();});
-
-    var count = parseInt($(".luckybag").html().trim());
-    var count1 = parseInt(count/1000000) ;
-    var count2 = parseInt(count/100000)%10;
-    var count3 = parseInt(count/10000)%10;
-    var count4 = parseInt(count/1000)%10;
-    var count5 = parseInt(count/100)%10;
-    var count6 = parseInt(count/10)%10;
-    var count7 = parseInt(count%10);
-    var numPics = ["images/0.png","images/1.png","images/2.png","images/3.png","images/4.png","images/5.png","images/6.png","images/7.png","images/8.png","images/9.png"];
-    // var numUrl = changeNum(countN);
-    // 字体自适应
-    //$("body").css("font-size", 62.5 * deviceWidth / 320+"%");
     
-    function changeNum(countN){
-      
-      return numPics[countN];
-
-    }
-    
-  
-    $("#num1").attr("src",changeNum(count1));
-    $("#num2").attr("src",changeNum(count2));
-    $("#num3").attr("src",changeNum(count3));
-    $("#num4").attr("src",changeNum(count4));
-    $("#num5").attr("src",changeNum(count5));   
-    $("#num6").attr("src",changeNum(count6));
-    $("#num7").attr("src",changeNum(count7));
-
-
-    $("#num21").attr("src",changeNum(count1));
-    $("#num22").attr("src",changeNum(count2));
-    $("#num23").attr("src",changeNum(count3));
-    $("#num24").attr("src",changeNum(count4));
-    $("#num25").attr("src",changeNum(count5)); 
-    $("#num26").attr("src",changeNum(count6));
-    $("#num27").attr("src",changeNum(count7));   
 
     $(".page1_info").click(function(e){
         infoMasked = !0;

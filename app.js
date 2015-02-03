@@ -13,9 +13,6 @@ var url = require('url');
 var config = require("./config")();
 var conString = config.dbConStr;
 
-var db = require('pg-bricks').configure(conString);
-db.pg.defaults.poolSize = 20;
-
 var pg = require('pg');
 //set connection pool size to 20
 pg.defaults.poolSize = 20;
@@ -80,29 +77,9 @@ var authFilter = function(req, res, next){
                     + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
                     +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
             }
-        //output: 1
+        
         });
-    });
-    /*
-db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
-        if(err) {  
-          console.error('error running query', err);
-          next(err);
-          return;
-        }
-                
-        if(rows && rows[0] && rows[0].openid){
-            next();
-        }else{
-            console.log("could not find any record associated with this openid");
-            //else need redirect to weixin for auth
-            return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
-                + config.wxAppId + "&redirect_uri=" 
-                + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + req.url)
-                +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
-        }
     }); 
-*/   
 }
 
 // view engine setup
@@ -119,15 +96,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
-/*
-
-app.option("/iamalive", function(req, res, next){
-    return res.json({
-        success: true,
-        message: 'iamalive'
-    });    
-});
-*/
 
 //app.use('/', routes);
 app.use(express.static(path.join(__dirname, 'static')));
@@ -193,7 +161,10 @@ app.get('/jsticket', function(req, res){
 })
 
 
-app.use(authFilter);
+if(!config.debug){
+    app.use(authFilter);    
+}
+
 var luckybagSeed = 8034540;
 
 /*
@@ -336,6 +307,8 @@ app.get('/wxoauth_callback', function(req, res, next){
                     console.error("ERROR ocurred when request for user info : " + err);
                     return next(err);
                 }
+                
+                console.log("get userinfo body : " + body);
                 var userInfo = JSON.parse(body);
                 var nickname = userInfo.nickname,
                     sex = userInfo.sex,
@@ -672,16 +645,34 @@ app.get('/originUser', function(req, res, next){
     });
 });
 
-app.get('/users', function(req, res, next){
-    
-    
+app.get('/luckybag', function(req, res, next){
     pg.connect(conString, function(err, client, done) {
         if(err) {
             console.error('error get connection from pool', err);
             return next(err);
         }
         
-        client.query("select b.openid, b.nickname, b.headimgurl from lottery_record a join auth_users b on a.openid=b.openid   where a.sharedby=$1", [req.query.sharedby], 
+        client.query("select count(*) + 8034540 as lotteryCount from lottery_record where used=true", [], 
+                    function(err, result){
+            done();
+            if(err) {  
+              console.error('error running query', err);
+              next(err);
+              return;
+            }
+            return res.json(result.rows[0]);
+        });
+    });
+});
+
+app.get('/users', function(req, res, next){
+    pg.connect(conString, function(err, client, done) {
+        if(err) {
+            console.error('error get connection from pool', err);
+            return next(err);
+        }
+        
+        client.query("select b.openid, b.nickname, b.headimgurl, sum(a.value) as value from lottery_record a join auth_users b on a.openid=b.openid  where a.sharedby=$1 group by b.openid, b.nickname, b.headimgurl", [req.query.sharedby], 
                     function(err, result){
             done();
             if(err) {  

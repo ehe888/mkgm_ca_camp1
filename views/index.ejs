@@ -74,23 +74,23 @@
                     <img src="images/0.png" width="100%" alt="" id="num1">
                   </div>
                   <div type="text" class="page1_num2">
-                    <img src="images/1.png" width="100%" alt="" id="num2">
+                    <img src="images/0.png" width="100%" alt="" id="num2">
                   </div>
 
                   <div type="text" class="page1_num3">
-                    <img src="images/2.png" width="100%" alt="" id="num3">
+                    <img src="images/0.png" width="100%" alt="" id="num3">
                   </div>
                   <div type="text" class="page1_num4">
-                    <img src="images/3.png" width="100%" alt="" id="num4">
+                    <img src="images/0.png" width="100%" alt="" id="num4">
                   </div>
                   <div type="text" class="page1_num5">
-                    <img src="images/4.png" width="100%" alt="" id="num5">
+                    <img src="images/0.png" width="100%" alt="" id="num5">
                   </div>
                   <div type="text" class="page1_num6" >
-                    <img src="images/5.png" width="100%" alt="" id="num6">
+                    <img src="images/0.png" width="100%" alt="" id="num6">
                   </div>
                   <div type="text" class="page1_num7">
-                    <img src="images/6.png" width="100%" alt="" id="num7">
+                    <img src="images/0.png" width="100%" alt="" id="num7">
                   </div>
             </div>                                                            
         </div>
@@ -265,25 +265,25 @@
                   </div>   -->
                   
                   <div type="text" class="page2_num1">
-                    <img src="images/7.png" width="100%" alt="" id="num21">
+                    <img src="images/0.png" width="100%" alt="" id="num21">
                   </div>
                   <div type="text" class="page2_num2">
-                    <img src="images/8.png" width="100%" alt="" id="num22">
+                    <img src="images/0.png" width="100%" alt="" id="num22">
                   </div>
                   <div type="text" class="page2_num3">
-                    <img src="images/9.png" width="100%" alt="" id="num23">
+                    <img src="images/0.png" width="100%" alt="" id="num23">
                   </div>
                   <div type="text" class="page2_num4">
-                    <img src="images/1.png" width="100%" alt="" id="num24">
+                    <img src="images/0.png" width="100%" alt="" id="num24">
                   </div>
                   <div type="text" class="page2_num5">
-                    <img src="images/2.png" width="100%" alt="" id="num25">
+                    <img src="images/0.png" width="100%" alt="" id="num25">
                   </div>
                   <div type="text" class="page2_num6">
-                    <img src="images/3.png" width="100%" alt="" id="num26">
+                    <img src="images/0.png" width="100%" alt="" id="num26">
                   </div>
                   <div type="text" class="page2_num7">
-                    <img src="images/4.png" width="100%" alt="" id="num27">
+                    <img src="images/0.png" width="100%" alt="" id="num27">
                   </div>
   
 
@@ -565,53 +565,6 @@
   </div>
   <div class="lateBtn f-dn">
     <img src="images/lateBtn.png" width="100%" alt="">
-  </div>
-  
-  
-  <!-- dynamic parameters from server side -->
-  <div class="luckybag f-dn">
-    <%= luckybagNumber %>
-  </div>
-  <div class="sharingContent f-dn">
-    <div class="sharedTitle">
-    <%
-        if(title){
-    %>
-    <%= title %>
-    <%
-        }
-    %>
-    </div>
-    <div class="sharedContent">
-    <%
-        if(content){
-    %>
-    <%= content %>
-    <%
-        }
-    %>
-    </div>
-  </div>
-  
-  <div class="friendsInfo f-dn">
-    <% if(friends){ 
-        friends.forEach(function(friend){ 
-    %>
-    
-        <div>
-            <div><%= friend.nickname %></div>
-            <img src='<%= friend.headimgurl %>'></img>
-            <div><%= friend.openid %></div>
-        </div>
-    
-    <%
-        });
-     }else{
-    %>
-        <div>您是第一个</div>
-    <%
-        }
-    %>
   </div>
   
   <script>
