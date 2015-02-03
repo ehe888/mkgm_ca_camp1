@@ -108,7 +108,9 @@ $(function(){
         firstA = 0;
         firstPrize = 1,
         usedNumber = 0,
-        tooLate = 0;
+        tooLate = 0,
+        totalSharedValue = 0,
+        myShareValue = 0;
         
     var wishIndex = 0;
     var pics = new Array();
@@ -196,6 +198,7 @@ $(function(){
                 success:function(response){
                     var shareTitle = response.title;
                     var shareContent = response.content;
+                    //myShareValue = parseInf(response.mysharevalue);
                     
                     if(shareTitle.length === 0){
                         $(".page0_wishCus").removeClass("f-dn");
@@ -219,8 +222,10 @@ $(function(){
                     //console.log(response);
                     
                     if($.isArray(response) && response.length > 0){
+                        
                         for(var i=0; i < 4; i++){
                             var j = i+1;
+                            totalSharedValue += parseInt(response[i].value);
                             
                             if (response[i]) 
                             {                        
