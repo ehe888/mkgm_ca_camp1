@@ -199,7 +199,7 @@ $(function(){
                 success:function(response){
                     var shareTitle = response.title;
                     var shareContent = response.content;
-                    //myShareValue = parseInf(response.mysharevalue);
+                    myShareValue = parseInf(response.value || 0);
                     
                     if(shareTitle.length === 0){
                         $(".page0_wishCus").removeClass("f-dn");
