@@ -24,6 +24,7 @@ var rollback = function(client, done) {
     //to the done function to close & remove this client from
     //the pool.  If you leave a client in the pool with an unaborted
     //transaction weird, hard to diagnose problems might happen.
+    console.error("ROLLBACK error: " + err);
     return done(err);
   });
 };
@@ -317,7 +318,7 @@ app.get('/wxoauth_callback', function(req, res, next){
                     country = userInfo.country,
                     headimgurl = userInfo.headimgurl,
                     privilege = userInfo.privilege,
-                    unionid = userInfo.unionid;
+                    unionid = userInfo.unionid || '';
                 
                 pg.connect(conString, function(err, client, done) {
                     if(err) {
@@ -343,9 +344,11 @@ app.get('/wxoauth_callback', function(req, res, next){
                                     if(err) return rollback(client, done);
     
                                     process.nextTick(function() {
-                                        var text = "UPDATE auth_users(nickname, sex, province, city, country, " 
-                                                + " headimgurl, privilege, unionid, access_token, refresh_token) "
-                                                + " VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) WHERE openid = $11";
+                                        var text = "UPDATE auth_users " 
+                                                + "SET nickname=$1, sex=$2, province=$3, city=$4, country=$5, " 
+                                                + " headimgurl=$6, privilege=$7, unionid=$8, access_token=$9, " 
+                                                + " refresh_token=$10 "
+                                                + " WHERE openid = $11";
                                         client.query(text, [nickname, sex, province, 
                                             city, country, headimgurl, privilege, 
                                             unionid, access_token, refresh_token, openid], 
