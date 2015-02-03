@@ -111,6 +111,7 @@ $(function(){
         tooLate = 0,
         totalSharedValue = 0,
         myShareValue = 0,
+        myTotalShareValue = 0,
         lotteryValue = 0;
         
     var wishIndex = 0;
@@ -199,8 +200,10 @@ $(function(){
                 success:function(response){
                     var shareTitle = response.title;
                     var shareContent = response.content;
-                    myShareValue = parseInf(response.value || 0);
-                    
+                    myShareValue = parseInt(response.value || 0);
+                    myTotalShareValue = 200 - myShareValue;
+
+                    $("page0_cash").html(myTotalShareValue);
                     if(shareTitle.length === 0){
                         $(".page0_wishCus").removeClass("f-dn");
                         $("#page0_wishC").html(shareContent);
@@ -226,7 +229,7 @@ $(function(){
                         
                         for(var i=0; i < 4; i++){
                             var j = i+1;
-                            totalSharedValue += parseInt(response[i].value);
+                            
                             
                             if (response[i]) 
                             {                        
@@ -236,10 +239,20 @@ $(function(){
                                 $(".profile" + j ).removeClass("f-dn");
                             }
                         }
+
+                        for(var i=0; i<response.length; i++){
+                            totalSharedValue += parseInt(response[i].value);
+                        }
+
                     }else{
                         //显示您是第一个抢红包的朋友
                         $(".page0_firstA").removeClass("f-dn");
                         
+                    }
+
+                    if(totalSharedValue>=myTotalShareValue){
+                        $('.lateInfo').removeClass("f-dn");
+                        $('.lateBtn').removeClass("f-dn");
                     }
                 }
 
@@ -653,6 +666,7 @@ $(function(){
                     if (data.data.value == 888) 
                     {
                         firstPrize = 1;
+                        lotteryValue = 200;
                     }
                     else{
                         firstPrize = 0;

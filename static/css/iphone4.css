@@ -467,22 +467,40 @@ body .page2_confirm{
 
 /*抽奖页*/
 
+
 body .page3_send{
     position: absolute;
-    width: 54.69%; /*350/640*/
-    top:78%;
-    left: 22.7%;
+    width: 80%; /*350/640*/
+    top:75%;
+    height: 20%;
+    left: 10%;
+    z-index: 10001;
+}
+
+body .page3_sendBtn{
+    position: absolute;
+    width: 68.37%; /*350/640/0.8*/
+    top:21%;
+    left: 14.7%;
     z-index: 10001;
 }
 
 body .page4_send{
     position: absolute;
-    width: 54.69%; /*350/640*/
-    top:78%;
-    left: 22.7%;
+    width: 80%; /*350/640*/
+    top:75%;
+    height: 20%;
+    left: 10%;
     z-index: 10001;
 }
 
+body .page4_sendBtn{
+    position: absolute;
+    width: 68.37%; /*350/640/0.8*/
+    top:21%;
+    left: 14.7%;
+    z-index: 10001;
+}
 
 /*step3 普通福袋*/
 body .page3_coupon{
@@ -632,6 +650,7 @@ body .page3_cus{
     width: 15%; /*96/640*/
     top: 73%;
     left: 42.5%;
+    z-index: 10002;
     
 }
 
@@ -842,6 +861,7 @@ body .page4_cus{
     width: 15%; /*96/640*/
     top: 73%;
     left: 42.5%;
+    z-index: 10002;
     
 }
 /*888福袋返回*/

@@ -451,7 +451,7 @@ app.post('/lottery', function(req, res, next){
                         
                     
                     //call message api to send sms
-<<<<<<< HEAD
+
                     if (rows[0].value !== 888) {
                         var sms = config.smsNormal;
                         sms = sms.replace("【变量1】", rows[0].value);
@@ -491,7 +491,7 @@ app.post('/lottery', function(req, res, next){
                         );
                     }
         
-=======
+
                     if(!config.debug){
                         
                         if (rows[0].value !== 888) {
@@ -533,7 +533,7 @@ app.post('/lottery', function(req, res, next){
                              );
                         }
                     }
->>>>>>> FETCH_HEAD
+
                     return res.json({
                         success: true,
                         data: rows[0]

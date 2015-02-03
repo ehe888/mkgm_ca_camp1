@@ -1204,9 +1204,18 @@ body .page3_light3{
 
 body .page3_send{
     position: absolute;
-    width: 54.69%; /*350/640*/
-    top:85%;
-    left: 22.7%;
+    width: 80%; /*350/640*/
+    top:80%;
+    height: 20%;
+    left: 10%;
+    z-index: 10001;
+}
+
+body .page3_sendBtn{
+    position: absolute;
+    width: 68.37%; /*350/640/0.8*/
+    top:21%;
+    left: 14.7%;
     z-index: 10001;
 }
 
@@ -1475,14 +1484,25 @@ body .page4_light3{
 
 
 
+
+
+
 body .page4_send{
     position: absolute;
-    width: 54.69%; /*350/640*/
-    top:85%;
-    left: 22.7%;
+    width: 80%; 
+    top:80%;
+    height: 20%;
+    left: 10%;
     z-index: 10001;
 }
 
+body .page4_sendBtn{
+    position: absolute;
+    width: 68.37%; /*350/640/0.8*/
+    top:21%;
+    left: 14.7%;
+    z-index: 10001;
+}
 
 /*优惠卷使用方法*/
 
