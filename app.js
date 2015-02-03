@@ -451,6 +451,7 @@ app.post('/lottery', function(req, res, next){
                         
                     
                     //call message api to send sms
+<<<<<<< HEAD
                     if (rows[0].value !== 888) {
                         var sms = config.smsNormal;
                         sms = sms.replace("【变量1】", rows[0].value);
@@ -490,6 +491,49 @@ app.post('/lottery', function(req, res, next){
                         );
                     }
         
+=======
+                    if(!config.debug){
+                        
+                        if (rows[0].value !== 888) {
+                             var sms = config.smsNormal;
+                             sms = sms.replace("【变量1】", rows[0].value);
+                             sms = sms.replace("【变量2】", rows[0].code);
+                             request.post({
+                                     url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                     form: {
+                                         account: 'cf_obizsoft',
+                                         password: 'a123456',
+                                         mobile: config.debug ? '13764211365' : input.mobile,
+                                         content: sms
+                                     }
+                                 }, function(err, res, bd){
+                                     if(err){
+                                         console.error(err);
+                                     }
+                                     console.log(bd);
+                                 }
+                             );
+                        }else{
+                             var sms = config.sms888;
+                             sms = sms.replace("【变量1】", rows[0].code);
+                             request.post({
+                                     url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                     form: {
+                                         account: 'cf_obizsoft',
+                                         password: 'a123456',
+                                         mobile: config.debug ? '13764211365' : input.mobile,
+                                         content: sms
+                                     }
+                                 }, function(err, res, bd){
+                                     if(err){
+                                         console.error(err);
+                                     }
+                                     console.log("the result" + bd);
+                                 }
+                             );
+                        }
+                    }
+>>>>>>> FETCH_HEAD
                     return res.json({
                         success: true,
                         data: rows[0]
@@ -532,7 +576,8 @@ app.post('/shareInfos', function(req, res, next) {
         shareid : input.shareid,
         sharedby : input.sharedby,
         title : input.title,
-        content : input.content
+        content : input.content,
+        value: input.value
     }
     console.log("share infos : " + JSON.stringify(data));
     
@@ -547,9 +592,9 @@ app.post('/shareInfos', function(req, res, next) {
             }
 
             process.nextTick(function() {
-                var text = "INSERT INTO share_info(openid, shareid, sharedby, title, content)" 
-                    + "VALUES($1, $2, $3, $4, $5)";
-                client.query(text, [data.openid, data.shareid, data.sharedby, data.title, data.content], 
+                var text = "INSERT INTO share_info(openid, shareid, sharedby, title, content, value)" 
+                    + "VALUES($1, $2, $3, $4, $5, $6)";
+                client.query(text, [data.openid, data.shareid, data.sharedby, data.title, data.content, data.value], 
                     function(err) {
                         console.error(err);
                         if(err) return rollback(client, done);
@@ -576,7 +621,7 @@ app.get('/originUser', function(req, res, next){
             return next(err);
         }
         
-        client.query("select a.title, a.content, b.nickname, b.headimgurl from share_info a join auth_users b on a.openid=b.openid where a.shareid=$1", [shareid], 
+        client.query("select a.title, a.content, a.value, b.nickname, b.headimgurl from share_info a join auth_users b on a.openid=b.openid where a.shareid=$1", [shareid], 
                     function(err, result){
             done(); 
             if(err) {  
