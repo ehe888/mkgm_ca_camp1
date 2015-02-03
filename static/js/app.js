@@ -203,7 +203,7 @@ $(function(){
                     myShareValue = parseInt(response.value || 0);
                     myTotalShareValue = 200 - myShareValue;
 
-                    $("page0_cash").html(myTotalShareValue);
+                    $(".page0_cash").html(myTotalShareValue);
                     if(shareTitle.length === 0){
                         $(".page0_wishCus").removeClass("f-dn");
                         $("#page0_wishC").html(shareContent);
@@ -398,7 +398,7 @@ $(function(){
         $(".usedNumber_ip4").attr("src","images/usedNumber_origin.png");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
         $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
-        $(".lateInfo_ip4").attr("src","images/lageInfo_origin.png");
+        $(".lateInfo_ip4").attr("src","images/lateInfo_origin.png");
 
 
     };
@@ -767,6 +767,7 @@ $(function(){
     $('.lateBtn').click(function(e){
         $('.lateInfo').addClass("f-dn");
         $('.lateBtn').addClass("f-dn");
+        $(".m-screen01").addClass("f-dn");
         $(".m-screen0").removeClass("f-dn");
         $(".m-screen0").find(".animated").removeClass("f-ann");
     })
