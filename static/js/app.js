@@ -110,7 +110,8 @@ $(function(){
         usedNumber = 0,
         tooLate = 0,
         totalSharedValue = 0,
-        myShareValue = 0;
+        myShareValue = 0,
+        lotteryValue = 0;
         
     var wishIndex = 0;
     var pics = new Array();
@@ -293,6 +294,7 @@ $(function(){
                             openid: openid,
                             shareid: shareid,
                             sharedby: sharedBy,
+                            value: lotteryValue,
                             title:wishTitleContent[wishIndex<=-100?3:wishIndex],
                             content:wishContent[wishIndex<=-100?3:wishIndex]
                         },
@@ -646,15 +648,16 @@ $(function(){
                 {
 
                     console.log("value: "+data.data.value + "code: "+data.data.code);
+                    lotteryValue = parseInt(data.data.value);
                     if (data.data.value == 888) 
                     {
                         firstPrize = 1;
                     }
                     else{
                         firstPrize = 0;
-                        $(".page3_cash1").html(parseInt(data.data.value));
-                        $(".page3_cash2").html(200-parseInt(data.data.value));
-                        $(".page5_cash").html(parseInt(data.data.value));
+                        $(".page3_cash1").html(lotteryValue);
+                        $(".page3_cash2").html(200-lotteryValue);
+                        $(".page5_cash").html(lotteryValue);
                     }
                     $('.page2_confirm').removeClass("f-dn");
                     $('.page2_info').removeClass("f-dn");
