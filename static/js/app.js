@@ -226,7 +226,7 @@ $(function(){
                             {                        
                                 $(".profile" + j + "_image").attr("src",response[i].headimgurl);
                                 $(".profile" + j + "_shareId").html(response[i].nickname);
-                                $(".profile" + j + "_cash").html(response[i].value);
+                                $(".profile" + j + "_cash").html(parseInt(response[i].value));
                                 $(".profile" + j ).removeClass("f-dn");
                             }
                         }
