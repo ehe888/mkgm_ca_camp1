@@ -375,6 +375,7 @@ $(function(){
         $(".page3_ip4").attr("src", "images/page3_bg_origin2.jpg");
         $(".page4_ip4").attr("src", "images/page3_bg_origin2.jpg");
         $(".loading_ip4").attr("src","images/loading_image.jpg");
+        $(".usedNumber").attr("src","images/usedNumber_origin.png");
         $(".campInfo_ip4").attr("src","images/campInfo_origin.jpg");
         $(".confirmWish_ip4").attr("src","images/confirmWish_origin.png");
         $(".lateInfo").attr("src","images/lageInfo_origin.png");
