@@ -321,8 +321,10 @@ app.get('/wxoauth_callback', function(req, res, next){
                 
                 pg.connect(conString, function(err, client, done) {
                     if(err) {
+                        console.error('error get connection from pool');
                         return next(err);
                     }
+                    
                     client.query("select * from auth_users where openid=$1", [openid], function(err, result){
                         done();
                         if(err) {  
@@ -330,6 +332,8 @@ app.get('/wxoauth_callback', function(req, res, next){
                           return next(err);
                         }
                         var rows = result.rows;
+                        
+                        console.log("get userinfo from db : " + rows);
                         if(rows.length > 0 ){
                             pg.connect(conString, function(err, client, done) {
                                 if(err) {
@@ -382,66 +386,6 @@ app.get('/wxoauth_callback', function(req, res, next){
                         }
                     });
                 });
-                /*
-                //upsert openid, access_token, refresh_token, expires_in into database
-                db.select().from('auth_users').where('openid', openid).rows(function(err, rows){
-                    if(err) {  
-                      console.error('error running query', err);
-                      return next(err);
-                    }
-                    
-                    
-                    if(rows && rows[0]){
-                        //update existing field
-                        db.update('auth_users', 
-                            {   
-                                nickname: nickname, 
-                                sex: sex, 
-                                province: province, 
-                                city: city,
-                                country: country,
-                                headimgurl: headimgurl,
-                                privilege: privilege,
-                                unionid: unionid,
-                                access_token: access_token,
-                                refresh_token: refresh_token
-                            }).where('openid', openid).run(function(err, rows){
-                                if(err) {  
-                                  console.error('error running query', err);
-                                  return next(err);
-                                }
-                                //set the openid in cookie
-                                console.log("Reset openid in cookie : " + openid);
-                                
-                                return res.redirect(req.query.redirect);
-                            });
-                    }else{
-                        //insert new record
-                        console.log("insert new openid : " + openid);
-                        db.insert('auth_users', 
-                        {   
-                            openid: openid,
-                            nickname: nickname, 
-                            sex: sex, 
-                            province: province, 
-                            city: city,
-                            country: country,
-                            headimgurl: headimgurl,
-                            privilege: privilege,
-                            unionid: unionid,
-                            access_token: access_token,
-                            refresh_token: refresh_token
-                        }).returning('*').row(function(err, row){
-                            if(err) {  
-                              console.error('error running query', err);
-                              return next(err);
-                            }
-                            
-                            return res.redirect(req.query.redirect);
-                        });
-                    }
-                });
-                */
             });
     	}
     });
