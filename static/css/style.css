@@ -96,6 +96,7 @@ body .loading_logo{
     width: 29.7%;/*190px*/
     z-index: 1000001;
     -webkit-border-radius: 50px;
+   
 
    /* box-shadow: 0 0 20px rgba(255,255,255,.6),inset 0 0 20px rgba(255,255,255,1);
     -webkit-box-shadow: 0 0 50px rgba(255,255,255,.6),inset 0 0 50px rgba(255,255,255,1);*/
@@ -759,14 +760,14 @@ body .page2_confirm{
     width: 54.6875%; /*350/640*/
     top:67%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 }
 
 body .page2_info{
     position: absolute;
     width: 100%;
     top: 0%;
-    z-index: 10005;
+    z-index: 20001;
 }
 
 
@@ -1630,7 +1631,7 @@ body .usedNumber{
     position: absolute;
     width: 100%;
     top: 0%;
-    z-index: 10005;
+    z-index: 20001;
     
 }
 
@@ -1639,7 +1640,7 @@ body .usedBtn{
     width: 54.69%;/*350px*/
     top: 75%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 }
 
 /*礼包抢完了*/
@@ -1647,7 +1648,7 @@ body .lateInfo{
     position: absolute;
     width: 100%;
     top: 0%;
-    z-index: 10005;
+    z-index: 20001;
     
 }
 
@@ -1656,7 +1657,7 @@ body .lateBtn{
     width: 54.69%;/*350px*/
     top: 65%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 }
 /*分享*/
 body .shaerPage{
