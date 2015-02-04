@@ -206,65 +206,7 @@ app.get('/', function(req, res, next) {
                 
         res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
         
-        pg.connect(conString, function(err, client, done) {
-            if(err) {
-                return console.error('error fetching client from pool', err);
-            }
-            client.query('select count(*) from lottery_record where used=$1', [true], function(err, result) {
-                //call `done()` to release the client back to the pool
-                done();
-                var luckybagNumber = luckybagSeed;
-                if(err){
-                    //doesn't matter, we just give a number
-                    
-                }else{
-                    luckybagNumber += parseInt(result.rows[0].count);
-                }
-                
-                if(sharedby){
-                    pg.connect(conString, function(err, client, done) {
-                        if(err) {
-                            return console.error('error fetching client from pool', err);
-                        }
-                        client.query("select nickname, headimgurl, a.openid from auth_users a join lottery_record b on a.openid=b.openid where b.sharedby=$1", [sharedby], function(err, result){
-                            done();
-                            var friends = false;
-                            if(err || result.rows.length === 0){
-                                //doen't matter
-                            }else{
-                                friends = result.rows;
-                            }
-                            
-                            console.log("query friends result callback : " + result.rows);
-                            pg.connect(conString, function(err, client, done) {
-                                if(err) {
-                                    return console.error('error fetching client from pool', err);
-                                }
-                                client.query("select title, content from share_info where shareid=$1", 
-                                        [shareid], function(err, result){
-                                    done();
-                                    var title = '',
-                                        content = '';
-                                    if(err || result.rows.length === 0){
-                                        //now result, should provide a default
-                                    }else{
-                                        title = result.rows[0].title;
-                                        content = result.rows[0].content;
-                                    }
-                                    res.render('index', { luckybagNumber : luckybagNumber, 
-                                            friends: friends, title: title, content: content});
-                                });
-                            });
-                            
-                        });
-                    });
-                }else{
-                    res.render('index', { luckybagNumber : luckybagNumber, friends: false, title:'', content: ''});
-                }
-                    
-            });
-        });
-
+        res.render('index', {});
     });
 });
 
@@ -645,7 +587,7 @@ app.get('/luckybag', function(req, res, next){
             return next(err);
         }
         
-        client.query("select count(*) + 8034540 as lotteryCount from lottery_record where used=true", [], 
+        client.query("select count(*) + 55321 as lotteryCount from lottery_record where used=true", [], 
                     function(err, result){
             done();
             if(err) {  
