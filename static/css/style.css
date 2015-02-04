@@ -940,6 +940,22 @@ body .page3_coupon{
     left: 28.3%;
 }
 
+body .page3_txt{
+    position: absolute;
+    top: 18%;
+    width: 80%;
+    height: 10%;
+    left: 10%;
+    text-align: center;
+    color: #B5A663;
+    font-size: 1.2em;
+    font-weight: 800;
+}
+
+
+
+
+
 body .page3_cash1{
     position: absolute;
     top: 24%;
@@ -1222,7 +1238,17 @@ body .page3_sendBtn{
 
 /*step3 888时尚大福袋*/
 
-
+body .page4_txt{
+    position: absolute;
+    top: 18%;
+    width: 80%;
+    height: 10%;
+    left: 10%;
+    text-align: center;
+    color: #B5A663;
+    font-size: 1.2em;
+    font-weight: 800;
+}
 
 body .page4_coupon{
     position: absolute;

@@ -216,6 +216,11 @@ $(function(){
                     
                     $(".profile0_image").attr("src",response.headimgurl);
                     $(".page0_shareId").html(response.nickname);
+                    $(".page3_nickname").removeClass("f-dn");
+                    $(".page3_nickname").html("从好友"+response.nickname+"那里");
+                    $(".page4_nickname").removeClass("f-dn");
+                    $(".page4_nickname").html("从好友"+response.nickname+"那里");
+
                 }
             });
             $.ajax({
@@ -249,7 +254,7 @@ $(function(){
                         $(".page0_firstA").removeClass("f-dn");
                         
                     }
-
+                        //红包已抢完  
                     if(totalSharedValue>=myTotalShareValue){
                         $('.lateInfo').removeClass("f-dn");
                         $('.lateBtn').removeClass("f-dn");
@@ -663,7 +668,7 @@ $(function(){
 
                     console.log("value: "+data.data.value + "code: "+data.data.code);
                     lotteryValue = parseInt(data.data.value);
-                    if (data.data.value == 888) 
+                    if (lotteryValue == 888) 
                     {
                         firstPrize = 1;
                         lotteryValue = 200;
@@ -724,7 +729,8 @@ $(function(){
                 if (data.success) 
                 {
                     // console.log("value: "+data.data.value + "code: "+data.data.code);
-                    if (data.data.value == 888) 
+                    lotteryValue = parseInt(data.data.value);
+                    if (lotteryValue == 888) 
                     {
                         firstPrize = 1;
                     }
@@ -1569,14 +1575,10 @@ $(function(){
         
     })
 
-    //福袋已抢完  
+    
 
 
-    //滑动祝福语
-    var i = 0;
-    // $(".page4_arrowR").click(function(e){
-    //     $(".")
-    // })
+   
     
     $(".page4_send").click(function(e){
         $(".share-screen").removeClass("f-dn");
