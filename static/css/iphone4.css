@@ -462,11 +462,22 @@ body .page2_confirm{
     width: 54.6875%; /*350/640*/
     top:80%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 } 
 
 /*抽奖页*/
 
+body .page3_txt{
+    position: absolute;
+    top: 13%;
+    width: 80%;
+    height: 10%;
+    left: 10%;
+    text-align: center;
+    color: #B5A663;
+    font-size: 1.2em;
+    font-weight: 800;
+}
 
 body .page3_send{
     position: absolute;
@@ -484,6 +495,7 @@ body .page3_sendBtn{
     left: 14.7%;
     z-index: 10001;
 }
+
 
 body .page4_send{
     position: absolute;
@@ -701,6 +713,18 @@ body #wishTitle3{
 }
 
 /*step3 888时尚大福袋*/
+body .page4_txt{
+    position: absolute;
+    top: 13%;
+    width: 80%;
+    height: 10%;
+    left: 10%;
+    text-align: center;
+    color: #B5A663;
+    font-size: 1.2em;
+    font-weight: 800;
+}
+
 body .page4_coupon{
     position: absolute;
     width: 64.53%; /*413/640*/
@@ -914,7 +938,7 @@ body .lateBtn{
     width: 54.69%;/*350px*/
     top: 80%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 }
 
 /*号码已注册    */
@@ -923,7 +947,7 @@ body .usedBtn{
     width: 54.69%;/*350px*/
     top: 87%;
     left: 22.7%;
-    z-index: 10005;
+    z-index: 20001;
 }
 
 body .activity_btn{
