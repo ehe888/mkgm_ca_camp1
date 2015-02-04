@@ -36,15 +36,16 @@ gulp.task('clean', function(cb) {
 gulp.task('usemin', [], function() {
   gulp.src(['./static/home.html'])
     .pipe(usemin({
-      css: [minifyCss(), 'concat'],
-      js: [uglify()]
+      js: [uglify()],
+      js1: [uglify()],
+      js2: [uglify()]
     }))
     .pipe(gulp.dest('./build'));
 });
 
 //2. revall
 
-gulp.task('revall', ['images', 'iphone4css', 'usemin'], function(){
+gulp.task('revall', ['images', 'copycss', 'usemin'], function(){
 	gulp.src('./build/**/*')
 		.pipe(revall({ ignore: [/^\/favicon.ico$/g, /^\/home.html/g ] }))
 		//.pipe(minifyHtml({empty: true}))
