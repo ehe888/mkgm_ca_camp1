@@ -1,3 +1,6 @@
+#This is the monit config file 
+#we use this file tell Monit to monitor our service and restart it in case of any crash
+
 check mkgm_ca_camp_01
 with pidfile /var/run/mkgm_ca_camp_01.pid
 start program = "/etc/init.d/mkgm_ca_camp_01 start"

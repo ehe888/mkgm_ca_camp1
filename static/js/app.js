@@ -59,6 +59,7 @@ function adaptive(){
 }
 
 function loadimg(pics, progressCallBack, completeCallback) {
+    $(".loading_page").find(".animated").removeClass("f-dn");
     var index = 0;
     var len = pics.length;
     var img = new Image();
@@ -82,7 +83,7 @@ function loadimg(pics, progressCallBack, completeCallback) {
     if (len > 0) {
         load();
     } else {
-        progressCallBack("100%");
+        completeCallback();
     }
     return {
         pics:pics,
@@ -153,9 +154,9 @@ $(function(){
         var per = parseInt(w);
         //console.log(per);
         $(".loading_num").html(w);
-        $(".loading_page").find(".animated").removeClass("f-dn");
 
     },function(){
+        $(".loading_num").html('100%');
         adaptive();
         $(".loading_page").remove();
         //get lucky bag count

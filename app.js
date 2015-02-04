@@ -166,8 +166,6 @@ if(!config.debug){
     app.use(authFilter);    
 }
 
-var luckybagSeed = 8034540;
-
 /*
     params:
         1. sharedby - the initiators open id
@@ -206,7 +204,9 @@ app.get('/', function(req, res, next) {
                 
         res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
         
-        res.render('index', {});
+        //res.render('index', {});
+        
+        res.sendFile(path.join(__dirname, config.debug ? './static' : './release', 'home.html'));
     });
 });
 
