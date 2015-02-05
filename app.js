@@ -394,88 +394,47 @@ app.post('/lottery', function(req, res, next){
                         
                     
                     //call message api to send sms
-
-                    if (rows[0].value !== 888) {
-                        var sms = config.smsNormal;
-                        sms = sms.replace("【变量1】", parseInt(rows[0].value).toFixed(0));
-                        sms = sms.replace("【变量2】", rows[0].code);
-                        request.post({
-                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                form: {
-                                    account: 'cf_obizsoft',
-                                    password: 'a123456',
-                                    mobile: config.debug ? '13764211365' : input.mobile,
-                                    content: sms
-                                }
-                            }, function(err, res, bd){
-                                if(err){
-                                    console.error(err);
-                                }
-                                console.log(bd);
-                            }
-                        );
-                    }else{
-                        var sms = config.sms888;
-                        sms = sms.replace("【变量1】", rows[0].code);
-                        request.post({
-                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                form: {
-                                    account: 'cf_obizsoft',
-                                    password: 'a123456',
-                                    mobile: config.debug ? '13764211365' : input.mobile,
-                                    content: sms
-                                }
-                            }, function(err, res, bd){
-                                if(err){
-                                    console.error(err);
-                                }
-                                console.log("the result" + bd);
-                            }
-                        );
-                    }
-        
-
                     if(!config.debug){
-                        
                         if (rows[0].value !== 888) {
-                             var sms = config.smsNormal;
-                             sms = sms.replace("【变量1】", rows[0].value);
-                             sms = sms.replace("【变量2】", rows[0].code);
-                             request.post({
-                                     url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                     form: {
-                                         account: 'cf_obizsoft',
-                                         password: 'a123456',
-                                         mobile: config.debug ? '13764211365' : input.mobile,
-                                         content: sms
-                                     }
-                                 }, function(err, res, bd){
-                                     if(err){
-                                         console.error(err);
-                                     }
-                                     console.log(bd);
-                                 }
-                             );
+                            var sms = config.smsNormal;
+                            sms = sms.replace("【变量1】", parseInt(rows[0].value).toFixed(0));
+                            sms = sms.replace("【变量2】", rows[0].code);
+                            request.post({
+                                    url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                    form: {
+                                        account: 'cf_obizsoft',
+                                        password: 'a123456',
+                                        mobile: config.debug ? '13764211365' : input.mobile,
+                                        content: sms
+                                    }
+                                }, function(err, res, bd){
+                                    if(err){
+                                        console.error(err);
+                                    }
+                                    console.log(bd);
+                                }
+                            );
                         }else{
-                             var sms = config.sms888;
-                             sms = sms.replace("【变量1】", rows[0].code);
-                             request.post({
-                                     url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                     form: {
-                                         account: 'cf_obizsoft',
-                                         password: 'a123456',
-                                         mobile: config.debug ? '13764211365' : input.mobile,
-                                         content: sms
-                                     }
-                                 }, function(err, res, bd){
-                                     if(err){
-                                         console.error(err);
-                                     }
-                                     console.log("the result" + bd);
-                                 }
-                             );
+                            var sms = config.sms888;
+                            sms = sms.replace("【变量1】", rows[0].code);
+                            request.post({
+                                    url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                    form: {
+                                        account: 'cf_obizsoft',
+                                        password: 'a123456',
+                                        mobile: config.debug ? '13764211365' : input.mobile,
+                                        content: sms
+                                    }
+                                }, function(err, res, bd){
+                                    if(err){
+                                        console.error(err);
+                                    }
+                                    console.log("the result" + bd);
+                                }
+                            );
                         }
                     }
+
 
                     return res.json({
                         success: true,
