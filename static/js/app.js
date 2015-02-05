@@ -116,6 +116,8 @@ $(function(){
         lotteryValue = 0;
         
     var wishIndex = 0;
+    //点击发送手机号
+    var clicked = 0;
     var pics = new Array();
     //cookie中获取微信config需要的参数，后台给
     var jsapiTicket = $.cookie("jsticket"),
@@ -651,7 +653,7 @@ $(function(){
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
         }
-        else{
+        else if(!clicked){
             $.ajax({
             url: '/lottery',
             type: 'post',
@@ -664,6 +666,7 @@ $(function(){
             },
             success:function(data){
                 // console.log(data);
+                clicked = 1;
                 if (data.success) 
                 {
 
@@ -715,7 +718,8 @@ $(function(){
 
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
-        }else{
+        }
+        else if(!clicked){
             $.ajax({
             url: '/lottery',
             type: 'post',
@@ -727,6 +731,7 @@ $(function(){
                 sharedby: sharedBy
             },
             success:function(data){
+                clicked = 1;
                 if (data.success) 
                 {
                     // console.log("value: "+data.data.value + "code: "+data.data.code);
