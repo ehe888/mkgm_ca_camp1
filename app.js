@@ -30,8 +30,9 @@ var rollback = function(client, done) {
 };
 
 var routes = require('./routes/index');
-var html_dir = './static';
 var app = express();
+
+app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
 
 global.access_token = null;
 global.jsticket = null;
@@ -99,7 +100,7 @@ app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
 
 //app.use('/', routes);
-app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
+
 
 //get jsticket api
 app.get('/jsticket', function(req, res){
@@ -202,7 +203,7 @@ app.get('/', function(req, res, next) {
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
         
                 
-        res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
+        res.cookie('jsticket', jsticketCookie, { maxAge: (parseInt(ticketInfo.expires_at) - Date.now()/1000 - 60*5) * 1000 });
         
         //res.render('index', {});
         
