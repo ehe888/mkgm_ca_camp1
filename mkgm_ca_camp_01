@@ -25,7 +25,7 @@ LOGFILE=/data1/log/mkgm_ca_camp_01/node-service.log
 export PORT=8080
 export NODE_ENV=production
 
-NCMD="exec PORT=$PORT NODE_ENV=$NODE_ENV $DAEMON $DAEMON_ARGS >>$LOGFILE 2>&1"
+NCMD="exec $DAEMON $DAEMON_ARGS >>$LOGFILE 2>&1"
 
 if [ ! -e "$LOGFILE" ]; then
         touch "$LOGFILE"
