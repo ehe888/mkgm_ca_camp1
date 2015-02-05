@@ -396,7 +396,7 @@ app.post('/lottery', function(req, res, next){
 
                     if (rows[0].value !== 888) {
                         var sms = config.smsNormal;
-                        sms = sms.replace("【变量1】", parseInt(rows[0].value));
+                        sms = sms.replace("【变量1】", rows[0].value.toFixed(0));
                         sms = sms.replace("【变量2】", rows[0].code);
                         request.post({
                                 url:'http://121.199.16.178/webservice/sms.php?method=Submit',
