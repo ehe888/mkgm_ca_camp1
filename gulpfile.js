@@ -26,6 +26,7 @@ gulp.task('copycss', function() {
       .pipe(gulp.dest('./build/css'));
 });
 
+
 gulp.task('clean', function(cb) {
   // You can use multiple globbing patterns as you would with `gulp.src`
   del(['build', 'release'], cb);
@@ -34,7 +35,7 @@ gulp.task('clean', function(cb) {
 
 //1. concat all js, css and minify
 gulp.task('usemin', [], function() {
-  gulp.src(['./static/home.html'])
+  gulp.src(['./static/*.html'])
     .pipe(usemin({
       js: [uglify()],
       js1: [uglify()],
@@ -47,7 +48,7 @@ gulp.task('usemin', [], function() {
 
 gulp.task('revall', ['images', 'copycss', 'usemin'], function(){
 	gulp.src('./build/**/*')
-		.pipe(revall({ ignore: [/^\/favicon.ico$/g, /^\/home.html/g ] }))
+		.pipe(revall({ ignore: [/^\/favicon.ico$/g, /^\/home.html/g, /^\/iamalive.html/g ] }))
 		//.pipe(minifyHtml({empty: true}))
 		.pipe(gulp.dest('./release'));
 });
