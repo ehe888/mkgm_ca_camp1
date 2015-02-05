@@ -116,6 +116,8 @@ $(function(){
         lotteryValue = 0;
         
     var wishIndex = 0;
+    //点击发送手机号
+    var clicked = 0;
     var pics = new Array();
     //cookie中获取微信config需要的参数，后台给
     var jsapiTicket = $.cookie("jsticket"),
@@ -647,11 +649,12 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-
+        $("#confirmPhone")addClass("f-dn");
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
+                    $("#confirmPhone")removeClass("f-dn");
         }
-        else{
+        else if(!clicked){
             $.ajax({
             url: '/lottery',
             type: 'post',
@@ -664,6 +667,7 @@ $(function(){
             },
             success:function(data){
                 // console.log(data);
+                clicked = 1;
                 if (data.success) 
                 {
 
@@ -688,6 +692,7 @@ $(function(){
                     {
                         $('.usedNumber').removeClass("f-dn");
                         $('.usedBtn').removeClass("f-dn");
+                        $("#confirmPhone")removeClass("f-dn");
                     }
                     else if (data.errorCode === 'OVER') 
                     {
@@ -698,6 +703,9 @@ $(function(){
                     };
 
                 }
+            },
+            error:function(data){
+                $("#confirmPhone")removeClass("f-dn");
             }
         });  
         }
@@ -712,10 +720,12 @@ $(function(){
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
         console.log(phone);
-
+        $(".page0_confirmPhone")addClass("f-dn");
         if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
                     alert("您输入的手机号有误")
-        }else{
+                    $(".page0_confirmPhone")removeClass("f-dn");
+        }
+        else{
             $.ajax({
             url: '/lottery',
             type: 'post',
@@ -749,6 +759,7 @@ $(function(){
                     {
                         $('.usedNumber').removeClass("f-dn");
                         $('.usedBtn').removeClass("f-dn");
+                        $(".page0_confirmPhone")removeClass("f-dn");
                     }
                     else if (data.errorCode == 'OVER') 
                     {
@@ -758,6 +769,9 @@ $(function(){
                     };
 
                 }
+            },
+            error:function(data){
+                $(".page0_confirmPhone")removeClass("f-dn");
             }
         });
         }
