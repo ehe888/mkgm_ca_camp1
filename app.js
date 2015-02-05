@@ -30,7 +30,6 @@ var rollback = function(client, done) {
 };
 
 var routes = require('./routes/index');
-var html_dir = './static';
 var app = express();
 
 app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
@@ -86,10 +85,8 @@ var authFilter = function(req, res, next){
 }
 
 // view engine setup
-/*
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
-*/
 //app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -206,7 +203,7 @@ app.get('/', function(req, res, next) {
         var jsticketCookie = config.wxAppId + "," + now + "," + nonceStr + "," + signature;
         
                 
-        res.cookie('jsticket', jsticketCookie, { maxAge: (global.expires_at - Date.now()/1000 - 60*5) * 1000 });
+        res.cookie('jsticket', jsticketCookie, { maxAge: (parseInt(ticketInfo.expires_at) - Date.now()/1000 - 60*5) * 1000 });
         
         //res.render('index', {});
         
