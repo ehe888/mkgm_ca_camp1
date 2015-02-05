@@ -33,6 +33,8 @@ var routes = require('./routes/index');
 var html_dir = './static';
 var app = express();
 
+app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
+
 global.access_token = null;
 global.jsticket = null;
 global.expires_at = 0; // getTime() a int represent time in seconds since 1970
@@ -84,8 +86,10 @@ var authFilter = function(req, res, next){
 }
 
 // view engine setup
+/*
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+*/
 //app.use(logger('dev'));
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -99,7 +103,7 @@ app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
 
 //app.use('/', routes);
-app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
+
 
 //get jsticket api
 app.get('/jsticket', function(req, res){
