@@ -99,7 +99,7 @@ app.use(cookieParser("MKGM-CA-CAMPAIGN-9588"));
 
 
 //app.use('/', routes);
-app.use(express.static(path.join(__dirname, 'static')));
+app.use(express.static(path.join(__dirname, config.debug ? 'static' : 'release')));
 
 //get jsticket api
 app.get('/jsticket', function(req, res){
