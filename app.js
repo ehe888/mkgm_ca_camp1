@@ -47,6 +47,10 @@ var authFilter = function(req, res, next){
         return next();
     }
     
+    if(pathname.indexOf('images') > -1 || pathname.indexOf('js') > -1){
+        return next();
+    }
+    
     var openid = config.debug ? 'test1' : req.query.openid || req.cookies.openid;
     console.log("openid = " + openid);
     
