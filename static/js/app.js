@@ -216,55 +216,57 @@ $(function(){
                         $("#page0_wishTitle").html(shareTitle);
                         $("#page0_wish").html(shareContent);
                     }
-                    
                     $(".profile0_image").attr("src",response.headimgurl);
                     $(".page0_shareId").html(response.nickname);
+                    
+
+                    $.ajax({
+                        url:'/users?sharedby='+sharedBy,
+                        type:'GET',
+                        dataType:'json',
+                        success:function(response){
+                            //console.log(response);
+                            
+                            if($.isArray(response) && response.length > 0){
+                                
+                                for(var i=0; i < 4; i++){
+                                    var j = i+1;
+                                    
+                                    
+                                    if (response[i]) {                        
+                                        $(".profile" + j + "_image").attr("src",response[i].headimgurl);
+                                        $(".profile" + j + "_shareId").html(response[i].nickname);
+                                        $(".profile" + j + "_cash").html(parseInt(response[i].value));
+                                        $(".profile" + j ).removeClass("f-dn");
+                                    }
+                                }
+
+                                for(var i=0; i<response.length; i++){
+                                    totalSharedValue += parseInt(response[i].value);
+                                }
+
+                            }else{
+                                //显示您是第一个抢红包的朋友
+                                $(".page0_firstA").removeClass("f-dn");
+                                
+                            }
+                                //红包已抢完  
+                            if(totalSharedValue>=myTotalShareValue){
+                                $('.lateInfo').removeClass("f-dn");
+                                $('.lateBtn').removeClass("f-dn");
+                            }
+                        }
+
+                    });
+
                     $(".page3_nickname").removeClass("f-dn");
                     $(".page3_nickname").html("从好友"+response.nickname+"那里");
                     $(".page4_nickname").removeClass("f-dn");
                     $(".page4_nickname").html("从好友"+response.nickname+"那里");
-
-                }
-            });
-            $.ajax({
-                url:'/users?sharedby='+sharedBy,
-                type:'GET',
-                dataType:'json',
-                success:function(response){
-                    //console.log(response);
                     
-                    if($.isArray(response) && response.length > 0){
-                        
-                        for(var i=0; i < 4; i++){
-                            var j = i+1;
-                            
-                            
-                            if (response[i]) 
-                            {                        
-                                $(".profile" + j + "_image").attr("src",response[i].headimgurl);
-                                $(".profile" + j + "_shareId").html(response[i].nickname);
-                                $(".profile" + j + "_cash").html(parseInt(response[i].value));
-                                $(".profile" + j ).removeClass("f-dn");
-                            }
-                        }
-
-                        for(var i=0; i<response.length; i++){
-                            totalSharedValue += parseInt(response[i].value);
-                        }
-
-                    }else{
-                        //显示您是第一个抢红包的朋友
-                        $(".page0_firstA").removeClass("f-dn");
-                        
-                    }
-                        //红包已抢完  
-                    if(totalSharedValue>=myTotalShareValue){
-                        $('.lateInfo').removeClass("f-dn");
-                        $('.lateBtn').removeClass("f-dn");
-                    }
                 }
-
             });
+           
             //TODO: 通过Ajax调用 /users, 获得有多少好友已经抢过福袋，然后再进行处理
             if(firstA == 1){
                 $(".page0_firstA").removeClass("f-dn");
@@ -381,8 +383,7 @@ $(function(){
         userMobile = "",
         awardCode = "",
         deviceWidth = $(window).width(),
-        deviceHeight = $(window).height(),
-        trackingCampaign = "color_riche" ;
+        deviceHeight = $(window).height();
         console.log(deviceWidth);
         console.log(deviceHeight);
 
