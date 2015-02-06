@@ -650,7 +650,7 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-<<<<<<< HEAD
+
         
         if(!clicked){
             clicked = 1;
@@ -669,11 +669,9 @@ $(function(){
                     openid:openid,
                     shareid:shareid,
                     sharedby:sharedBy
-                },
-                success:function(data){
-                    // console.log(data);
+                }, 
 
-                    if (data.success) 
+                    if(data.success) 
                     {
 
 
@@ -690,8 +688,23 @@ $(function(){
                             $(".page3_cash2").html(200-lotteryValue);
                             $(".page5_cash").html(lotteryValue);
                         }
-                        $('.page2_confirm').removeClass("f-dn");
-                        $('.page2_info').removeClass("f-dn");
+                    
+        
+                        $('.m-screen1').addClass("animated fadeOutUp1");
+
+                        if(firstPrize==0){
+
+                            $('.draw-screen1').removeClass("f-dn");
+                            $('.draw-screen1').addClass("animated f-ad1 fadeInUp1")
+                            $(".draw-screen1").find(".animated").removeClass("f-ann")
+
+                        }
+                        else{
+                            $('.draw-screen2').removeClass("f-dn"); 
+                            $('.draw-screen2').addClass("animated f-ad1 fadeInUp1")
+                            $(".draw-screen2").find(".animated").removeClass("f-ann")
+                        }                                                        
+                        
                     }
                     else{
                         if (data.errorCode === 'PHONE_USED') 
@@ -757,6 +770,7 @@ $(function(){
                         if (lotteryValue == 888) 
                         {
                             firstPrize = 1;
+                            lotteryValue = 200;
                         }
                         else{
                             firstPrize = 0;
@@ -764,8 +778,22 @@ $(function(){
                             $(".page3_cash2").html(200-parseInt(data.data.value));
                             $(".page5_cash").html(parseInt(data.data.value));
                         }
-                        $('.page2_confirm').removeClass("f-dn");
-                        $('.page2_info').removeClass("f-dn");
+                                             
+                        $('.m-screen01').addClass("animated fadeOutUp1");
+
+                        if(firstPrize==0){
+
+                            $('.draw-screen1').removeClass("f-dn");
+                            $('.draw-screen1').addClass("animated f-ad1 fadeInUp1")
+                            $(".draw-screen1").find(".animated").removeClass("f-ann")
+
+                        }
+                        else{
+                            $('.draw-screen2').removeClass("f-dn"); 
+                            $('.draw-screen2').addClass("animated f-ad1 fadeInUp1")
+                            $(".draw-screen2").find(".animated").removeClass("f-ann")
+                        }
+    
                     }
                     else{
 
@@ -807,32 +835,7 @@ $(function(){
         $(".m-screen0").find(".animated").removeClass("f-ann");
     })
 
-    $(".page2_confirm").click(function(e){
-        
-        $('.m-screen1').addClass("animated fadeOutUp1");
-        //$('.m-screen1').addClass("f-dn");
-
-
-        $('.page2_confirm').addClass("f-dn");
-        $('.page2_info').addClass("f-dn");
-        $('.m-screen01').addClass("animated fadeOutUp1");
-        //$('.m-screen01').addClass("f-dn");
-
-
-        if(firstPrize==0){
-
-            $('.draw-screen1').removeClass("f-dn");
-            $('.draw-screen1').addClass("animated f-ad1 fadeInUp1")
-            $(".draw-screen1").find(".animated").removeClass("f-ann")
-
-        }
-        else{
-            $('.draw-screen2').removeClass("f-dn"); 
-            $('.draw-screen2').addClass("animated f-ad1 fadeInUp1")
-            $(".draw-screen2").find(".animated").removeClass("f-ann")
-        }
-         
-    });
+    
 
 
     
