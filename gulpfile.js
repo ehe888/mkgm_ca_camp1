@@ -8,7 +8,7 @@ var imagemin = require('gulp-imagemin');
 var cache = require('gulp-cache');
 var concat = require('gulp-concat');
 var rev = require('gulp-rev');
-var revReplace = require('gulp-rev-replace');
+var revReplace = require('gulp-rev-replace');   
 var useref = require('gulp-useref');
 var filter = require('gulp-filter');
 var csso = require('gulp-csso');
@@ -35,7 +35,7 @@ gulp.task('clean', function(cb) {
 
 //1. concat all js, css and minify
 gulp.task('usemin', [], function() {
-  gulp.src(['./static/*.html'])
+  gulp.src(['./static/home.html'])
     .pipe(usemin({
       js: [uglify()],
       js1: [uglify()],

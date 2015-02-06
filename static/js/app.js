@@ -384,8 +384,8 @@ $(function(){
         awardCode = "",
         deviceWidth = $(window).width(),
         deviceHeight = $(window).height();
-        console.log(deviceWidth);
-        console.log(deviceHeight);
+
+
 
     var  infoMasked = !1;
         
@@ -650,6 +650,7 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
+<<<<<<< HEAD
         
         if(!clicked){
             clicked = 1;
@@ -659,6 +660,7 @@ $(function(){
             }
             else{
                 $.ajax({
+
                 url: '/lottery',
                 type: 'post',
                 dataType: 'json',
@@ -670,8 +672,10 @@ $(function(){
                 },
                 success:function(data){
                     // console.log(data);
+
                     if (data.success) 
                     {
+
 
                         console.log("value: "+data.data.value + "code: "+data.data.code);
                         lotteryValue = parseInt(data.data.value);
@@ -694,7 +698,9 @@ $(function(){
                         {
                             $('.usedNumber').removeClass("f-dn");
                             $('.usedBtn').removeClass("f-dn");
+
                             clicked = 0;
+
                         }
                         else if (data.errorCode === 'OVER') 
                         {
@@ -704,6 +710,7 @@ $(function(){
                             
                         };
 
+
                     }
                 },
                 error:function(data){
@@ -711,6 +718,7 @@ $(function(){
                 }
             });  
             }
+
         }
   
 
@@ -722,6 +730,7 @@ $(function(){
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
         console.log(phone);
+
         if(!clicked){
             clicked = 1;
             if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
@@ -741,6 +750,7 @@ $(function(){
                 },
                 success:function(data){
                     if (data.success) 
+
                     {
                         // console.log("value: "+data.data.value + "code: "+data.data.code);
                         lotteryValue = parseInt(data.data.value);
@@ -758,6 +768,7 @@ $(function(){
                         $('.page2_info').removeClass("f-dn");
                     }
                     else{
+
                         if (data.errorCode == 'PHONE_USED') 
                         {
                             $('.usedNumber').removeClass("f-dn");
