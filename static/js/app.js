@@ -621,6 +621,7 @@ $(function(){
             if($(this).attr('id') === 'input-mobile' ){
                 if($.trim($(this).val()) === ''){
                     $(this).val('输入手机号马上抢福袋!');
+                    clicked = 0;
                 }
             }
         }).on('focus', 'input', function(){
@@ -635,6 +636,7 @@ $(function(){
             if($(this).attr('id') === 'input-mobile2' ){
                 if($.trim($(this).val()) === ''){
                     $(this).val('输入手机号来抢ta的福袋!');
+                    clicked = 0;
                 }
             }
         }).on('focus', 'input', function(){
@@ -720,10 +722,10 @@ $(function(){
                             //活动结束
                             $('.lateInfo').removeClass("f-dn");
                             $('.lateBtn').removeClass("f-dn");
-                            
-                        };
-
-
+                            clicked = 0;
+                        }else{
+			                clicked = 0;	
+			         };
                     }
                 },
                 error:function(data){
@@ -808,8 +810,9 @@ $(function(){
                             //活动结束
                             $('.lateInfo').removeClass("f-dn");
                             $('.lateBtn').removeClass("f-dn");
-                        };
-
+                        }else{
+			                  clicked = 0;
+			            };
                     }
                 },
                 error:function(data){
