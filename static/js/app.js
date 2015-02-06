@@ -650,110 +650,94 @@ $(function(){
 
     $("#confirmPhone").click(function(e){
         var phone = $("#input-mobile").val();
-       
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-
-        
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+            alert("您输入的手机号有误")
+            clicked = 0;
+            return;
+        }
         if(!clicked){
             clicked = 1;
-            if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
-                        alert("您输入的手机号有误")
-                        clicked = 0;
-            }
-            else{
-                $.ajax({
-
+            $.ajax({
                 url: '/lottery',
                 type: 'post',
                 dataType: 'json',
                 data: { 
-                    mobile: phone,
-                    openid:openid,
-                    shareid:shareid,
-                    sharedby:sharedBy
-                }, 
-
-                    if(data.success) 
-                    {
-
-
-                        console.log("value: "+data.data.value + "code: "+data.data.code);
-                        lotteryValue = parseInt(data.data.value);
-                        if (lotteryValue == 888) 
-                        {
-                            firstPrize = 1;
-                            lotteryValue = 200;
-                        }
-                        else{
-                            firstPrize = 0;
-                            $(".page3_cash1").html(lotteryValue);
-                            $(".page3_cash2").html(200-lotteryValue);
-                            $(".page5_cash").html(lotteryValue);
-                        }
-                    
-        
-                        $('.m-screen1').addClass("animated fadeOutUp1");
-
-                        if(firstPrize==0){
-
-                            $('.draw-screen1').removeClass("f-dn");
-                            $('.draw-screen1').addClass("animated f-ad1 fadeInUp1")
-                            $(".draw-screen1").find(".animated").removeClass("f-ann")
-
-                        }
-                        else{
-                            $('.draw-screen2').removeClass("f-dn"); 
-                            $('.draw-screen2').addClass("animated f-ad1 fadeInUp1")
-                            $(".draw-screen2").find(".animated").removeClass("f-ann")
-                        }                                                        
+                        mobile: phone,
+                        openid:openid,
+                        shareid:shareid,
+                        sharedby:sharedBy
+                    }, 
+                success: function(data){
+                        if(data.success){
+                            console.log("value: "+data.data.value + "code: "+data.data.code);
+                            lotteryValue = parseInt(data.data.value);
+                            if (lotteryValue == 888) 
+                            {
+                                firstPrize = 1;
+                                lotteryValue = 200;
+                            }
+                            else{
+                                firstPrize = 0;
+                                $(".page3_cash1").html(lotteryValue);
+                                $(".page3_cash2").html(200-lotteryValue);
+                                $(".page5_cash").html(lotteryValue);
+                            }
                         
-                    }
-                    else{
-                        if (data.errorCode === 'PHONE_USED') 
-                        {
-                            $('.usedNumber').removeClass("f-dn");
-                            $('.usedBtn').removeClass("f-dn");
-
-                            clicked = 0;
-
-                        }
-                        else if (data.errorCode === 'OVER') 
-                        {
-                            //活动结束
-                            $('.lateInfo').removeClass("f-dn");
-                            $('.lateBtn').removeClass("f-dn");
-                            clicked = 0;
+            
+                            $('.m-screen1').addClass("animated fadeOutUp1");
+    
+                            if(firstPrize==0){
+    
+                                $('.draw-screen1').removeClass("f-dn");
+                                $('.draw-screen1').addClass("animated f-ad1 fadeInUp1")
+                                $(".draw-screen1").find(".animated").removeClass("f-ann")
+    
+                            }
+                            else{
+                                $('.draw-screen2').removeClass("f-dn"); 
+                                $('.draw-screen2').addClass("animated f-ad1 fadeInUp1")
+                                $(".draw-screen2").find(".animated").removeClass("f-ann")
+                            }                                                        
+                            
                         }else{
-			                clicked = 0;	
-			         };
-                    }
-                },
+                            if (data.errorCode === 'PHONE_USED') 
+                            {
+                                $('.usedNumber').removeClass("f-dn");
+                                $('.usedBtn').removeClass("f-dn");
+                                clicked = 0;
+                            }
+                            else if (data.errorCode === 'OVER') 
+                            {
+                                //活动结束
+                                $('.lateInfo').removeClass("f-dn");
+                                $('.lateBtn').removeClass("f-dn");
+                                clicked = 0;
+                            }else{
+    			                clicked = 0;	
+                            };
+                        }
+                    },
                 error:function(data){
-                    clicked = 0;
-                }
-            });  
-            }
-
+                        clicked = 0;
+                    }
+            });
         }
-  
-
     }); 
 
     $(".page0_confirmPhone").click(function(e){
 
         var phone = $("#input-mobile2").val();
-       
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-        console.log(phone);
+        if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
+            alert("您输入的手机号有误")
+            clicked = 0;
+        }
 
         if(!clicked){
             clicked = 1;
-            if (phone=="" || phoneRex.test(phone)==false || phone.length>11){
-                        alert("您输入的手机号有误")
-                        clicked = 0;
-            }
-            else{
-                $.ajax({
+            
+            $.ajax({
                 url: '/lottery',
                 type: 'post',
                 dataType: 'json',
@@ -764,9 +748,7 @@ $(function(){
                     sharedby: sharedBy
                 },
                 success:function(data){
-                    if (data.success) 
-
-                    {
+                    if (data.success) {
                         // console.log("value: "+data.data.value + "code: "+data.data.code);
                         lotteryValue = parseInt(data.data.value);
                         if (lotteryValue == 888) 
@@ -819,7 +801,6 @@ $(function(){
                     clicked = 0;
                 }
             });
-            }
         } 
     }); 
 
