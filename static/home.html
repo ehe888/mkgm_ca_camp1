@@ -12,6 +12,13 @@
     <script src="js/jquery-1.11.1.js"></script>
     <script src="js/jquery.cookie.js"></script>
     <!-- endbuild -->
+    <script type="text/javascript">
+        $(function(){
+           $("img").each(function(){
+              $(this).attr("src", "http://www.obizsoft.com/ca/" + $(this).attr("src"));
+           }); 
+        });
+    </script>
 </head>
 
 

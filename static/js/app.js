@@ -650,7 +650,6 @@ $(function(){
         var phone = $("#input-mobile").val();
        
         var phoneRex =  /^(13[0-9]{9})|(14[0-9]{9})|(15[0-9]{9})|(18[0-9]{9})|(17[0-9]{9})$/;
-<<<<<<< HEAD
         
         if(!clicked){
             clicked = 1;
@@ -707,10 +706,10 @@ $(function(){
                             //活动结束
                             $('.lateInfo').removeClass("f-dn");
                             $('.lateBtn').removeClass("f-dn");
-                            
-                        };
-
-
+                            clicked = 0;
+                        }else{
+			    clicked = 0;	
+			};
                     }
                 },
                 error:function(data){
@@ -780,8 +779,9 @@ $(function(){
                             //活动结束
                             $('.lateInfo').removeClass("f-dn");
                             $('.lateBtn').removeClass("f-dn");
-                        };
-
+                        }else{
+			    clicked = 0;
+			};
                     }
                 },
                 error:function(data){
