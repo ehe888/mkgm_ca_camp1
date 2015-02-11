@@ -41,8 +41,6 @@ global.retriev_lock = 0; //lock the process to retriev ticket
 
 var authFilter = function(req, res, next){
     var pathname = url.parse(req.url).pathname;
-    console.log("Request for " + req.url + " received.");
-    
     if(pathname && pathname.indexOf('wxoauth_callback') > -1){
         return next();
     }
@@ -51,8 +49,9 @@ var authFilter = function(req, res, next){
         return next();
     }
     
-    var openid = config.debug ? 'test1' : req.query.openid || req.cookies.openid;
-    console.log("openid = " + openid);
+    console.log("Request for " + req.url + " received.");
+    
+    var openid = config.debug ? 'test1' : req.cookies.openid;
     
     if(!openid){        
         return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
@@ -343,9 +342,33 @@ app.get('/wxoauth_callback', function(req, res, next){
 })
 
 app.post('/lottery', function(req, res, next){
+    var ua = req.headers['user-agent'].toLowerCase();
+    console.log("user agent : " + ua);
+    if(!ua ||  ua.indexOf("micromessenger") < 0 ) {
+        console.log("==============not weixin===========");
+        return res.json({
+                success: false,
+                message: 'ILLEGAL'
+        });
+    }
+
+
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
-    
+    if(input.mobile === '输入手机号来抢ta的福袋!' || input.mobile === ''){
+        console.log("=====invalid mobile=== " + input.mobile);
+        return res.json({
+                success: false,
+                message: 'ILLEGAL'
+        });
+    }
+    if(input.openid === 'ouluKs2XzAiwI6gb7j8zu6Nug12Y'){
+        return res.json({success:false});
+    }
+        
+    if(input.openid !== req.cookies.openid){
+        return res.json({success:false, message: 'ILLEGAL'});
+    }
     
     pg.connect(conString, function(err, client, done) {
         if(err) {
@@ -367,7 +390,7 @@ app.post('/lottery', function(req, res, next){
                         return next(err);
                     }
                     
-                    client.query("select * from lottery_record where mobile=$1", [input.mobile], function(err, result){
+                    client.query("select * from lottery_record where mobile='%' ||  $1 || '%'", [input.mobile.trim()], function(err, result){
                         done();
                         if(err) {  
                           console.error('error running query', err);
@@ -392,7 +415,7 @@ app.post('/lottery', function(req, res, next){
                             client.query('update lottery_record set mobile = $1::text,used = true,' 
                                     + 'openid = $2::text,sharedby = $3::text,shareid=$4::text,update_time=now() ' 
                                     + 'where id = (select id from lottery_record where used = false limit 1) returning *',
-                                [input.mobile, input.openid, input.sharedby, input.shareid ],function(err, result){
+                                [input.mobile.trim(), input.openid, input.sharedby, input.shareid ],function(err, result){
                                 done();
                     	        if(err) {  
                     	          console.error('error running query', err);
@@ -423,7 +446,7 @@ app.post('/lottery', function(req, res, next){
                                                 form: {
                                                     account: 'cf_obizsoft',
                                                     password: 'a123456',
-                                                    mobile: config.debug ? '13764211365' : input.mobile,
+                                                    mobile: config.debug ? '13764211365' : input.mobile.trim(),
                                                     content: sms
                                                 }
                                             }, function(err, res, bd){
@@ -441,7 +464,7 @@ app.post('/lottery', function(req, res, next){
                                                 form: {
                                                     account: 'cf_obizsoft',
                                                     password: 'a123456',
-                                                    mobile: config.debug ? '13764211365' : input.mobile,
+                                                    mobile: config.debug ? '13764211365' : input.mobile.trim(),
                                                     content: sms
                                                 }
                                             }, function(err, res, bd){
