@@ -362,7 +362,7 @@ app.post('/lottery', function(req, res, next){
                 message: 'ILLEGAL'
         });
     }
-    if(input.openid === 'ouluKs2XzAiwI6gb7j8zu6Nug12Y'){
+    if(input.openid === 'ouluKs2XzAiwI6gb7j8zu6Nug12Y' || input.openid === 'ouluKs77gsz4KqnfGOxFq0cYBB40' ){
         return res.json({success:false});
     }
         
