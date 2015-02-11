@@ -47,7 +47,7 @@ var authFilter = function(req, res, next){
         return next();
     }
     
-    if(pathname.indexOf('images') > -1 || pathname.indexOf('js') > -1){
+    if(pathname.indexOf('images') > -1 || pathname.indexOf('js') > -1 || pathname.indexOf('css') > -1){
         return next();
     }
     
@@ -345,109 +345,138 @@ app.get('/wxoauth_callback', function(req, res, next){
 app.post('/lottery', function(req, res, next){
     var input = JSON.parse(JSON.stringify(req.body));
     console.log(req.body);
-
+    
+    
     pg.connect(conString, function(err, client, done) {
         if(err) {
-            console.error('error get connection from pool', err);
-            return next(err);
+            return console.error('error fetching client from pool', err);
         }
-        
-        client.query("select * from lottery_record where mobile=$1", [input.mobile], function(err, result){
+        client.query('SELECT * from auth_users where openid=$1', [input.openid], function(err, result) {
+            //call `done()` to release the client back to the pool
             done();
-            if(err) {  
-              console.error('error running query', err);
-              return next(err);
+            
+            if(err) {
+                return console.error('error running query', err);
             }
             
-            var rows = result.rows;
-            if (rows.length > 0){
-            	return res.json({
-    		        success: false,
-    		        message: "已经参与过抽奖",
-    		        errorCode: "PHONE_USED"
-    		    });
-            }
-            
-            pg.connect(conString, function(err, client, done) {
-                if(err) {
-                    console.error('error get connection from pool', err);
-                    return next(err);
-                }
-                
-                client.query('update lottery_record set mobile = $1::text,used = true,' 
-                        + 'openid = $2::text,sharedby = $3::text,shareid=$4::text,update_time=now() ' 
-                        + 'where id = (select id from lottery_record where used = false limit 1) returning *',
-                    [input.mobile, input.openid, input.sharedby, input.shareid ],function(err, result){
-                    done();
-        	        if(err) {  
-        	          console.error('error running query', err);
-        	          return next(err);
-        	        }
-        	        
-        	        
-                    var rows = result.rows;
-                    
-        	        if(rows.length === 0){
-        	            console.log("lottery ......" + rows);
-        	        	return res.json({
-        			        success: false,
-        			        message: "本轮抽奖已经全部结束",
-        			        errorCode: "OVER"
-        			    });
-        	        }
-                        
-                    
-                    //call message api to send sms
-                    if(!config.debug){
-                        if (rows[0].value !== 888) {
-                            var sms = config.smsNormal;
-                            sms = sms.replace("【变量1】", parseInt(rows[0].value).toFixed(0));
-                            sms = sms.replace("【变量2】", rows[0].code);
-                            request.post({
-                                    url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                    form: {
-                                        account: 'cf_obizsoft',
-                                        password: 'a123456',
-                                        mobile: config.debug ? '13764211365' : input.mobile,
-                                        content: sms
-                                    }
-                                }, function(err, res, bd){
-                                    if(err){
-                                        console.error(err);
-                                    }
-                                    console.log(bd);
-                                }
-                            );
-                        }else{
-                            var sms = config.sms888;
-                            sms = sms.replace("【变量1】", rows[0].code);
-                            request.post({
-                                    url:'http://121.199.16.178/webservice/sms.php?method=Submit',
-                                    form: {
-                                        account: 'cf_obizsoft',
-                                        password: 'a123456',
-                                        mobile: config.debug ? '13764211365' : input.mobile,
-                                        content: sms
-                                    }
-                                }, function(err, res, bd){
-                                    if(err){
-                                        console.error(err);
-                                    }
-                                    console.log("the result" + bd);
-                                }
-                            );
-                        }
+            if(result.rows.length > 0 && result.rows[0]){
+                console.log(" auth users record : " + result.rows[0]);
+                pg.connect(conString, function(err, client, done) {
+                    if(err) {
+                        console.error('error get connection from pool', err);
+                        return next(err);
                     }
-
-
-                    return res.json({
-                        success: true,
-                        data: rows[0]
+                    
+                    client.query("select * from lottery_record where mobile=$1", [input.mobile], function(err, result){
+                        done();
+                        if(err) {  
+                          console.error('error running query', err);
+                          return next(err);
+                        }
+                        
+                        var rows = result.rows;
+                        if (rows.length > 0){
+                        	return res.json({
+                		        success: false,
+                		        message: "已经参与过抽奖",
+                		        errorCode: "PHONE_USED"
+                		    });
+                        }
+                        
+                        pg.connect(conString, function(err, client, done) {
+                            if(err) {
+                                console.error('error get connection from pool', err);
+                                return next(err);
+                            }
+                            
+                            client.query('update lottery_record set mobile = $1::text,used = true,' 
+                                    + 'openid = $2::text,sharedby = $3::text,shareid=$4::text,update_time=now() ' 
+                                    + 'where id = (select id from lottery_record where used = false limit 1) returning *',
+                                [input.mobile, input.openid, input.sharedby, input.shareid ],function(err, result){
+                                done();
+                    	        if(err) {  
+                    	          console.error('error running query', err);
+                    	          return next(err);
+                    	        }
+                    	        
+                    	        
+                                var rows = result.rows;
+                                
+                    	        if(rows.length === 0){
+                    	            console.log("lottery ......" + rows);
+                    	        	return res.json({
+                    			        success: false,
+                    			        message: "本轮抽奖已经全部结束",
+                    			        errorCode: "OVER"
+                    			    });
+                    	        }
+                                    
+                                
+                                //call message api to send sms
+                                if(!config.debug){
+                                    if (rows[0].value !== 888) {
+                                        var sms = config.smsNormal;
+                                        sms = sms.replace("【变量1】", parseInt(rows[0].value).toFixed(0));
+                                        sms = sms.replace("【变量2】", rows[0].code);
+                                        request.post({
+                                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                                form: {
+                                                    account: 'cf_obizsoft',
+                                                    password: 'a123456',
+                                                    mobile: config.debug ? '13764211365' : input.mobile,
+                                                    content: sms
+                                                }
+                                            }, function(err, res, bd){
+                                                if(err){
+                                                    console.error(err);
+                                                }
+                                                console.log(bd);
+                                            }
+                                        );
+                                    }else{
+                                        var sms = config.sms888;
+                                        sms = sms.replace("【变量1】", rows[0].code);
+                                        request.post({
+                                                url:'http://121.199.16.178/webservice/sms.php?method=Submit',
+                                                form: {
+                                                    account: 'cf_obizsoft',
+                                                    password: 'a123456',
+                                                    mobile: config.debug ? '13764211365' : input.mobile,
+                                                    content: sms
+                                                }
+                                            }, function(err, res, bd){
+                                                if(err){
+                                                    console.error(err);
+                                                }
+                                                console.log("the result" + bd);
+                                            }
+                                        );
+                                    }
+                                }
+            
+            
+                                return res.json({
+                                    success: true,
+                                    data: rows[0]
+                                });
+                    	    });
+                        });
                     });
-        	    });
-            });
+                });
+            
+            }else{
+                console.log("could not find any record associated with this openid");
+                //else need redirect to weixin for auth
+                return res.redirect("https://open.weixin.qq.com/connect/oauth2/authorize?appid=" 
+                    + config.wxAppId + "&redirect_uri=" 
+                    + urlencode("http://campaign.canda.cn/wxoauth_callback?redirect=" + urlencode(req.url))
+                    +"&response_type=code&scope=snsapi_userinfo&state=1234567890#wechat_redirect");
+            }
+        
         });
     });
+    
+    
     
 	/*
 db.select().from('lottery_record').where('mobile', input.mobile).rows(function(err, rows){
