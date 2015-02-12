@@ -714,6 +714,10 @@ $(function(){
                                 $('.lateBtn').removeClass("f-dn");
                                 clicked = 0;
                             }else{
+                                if(data.message){
+                                    alert(data.message);
+                                }
+                                
     			                clicked = 0;	
                             };
                         }

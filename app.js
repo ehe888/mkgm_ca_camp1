@@ -8,6 +8,7 @@ var request = require('request');
 var urlencode = require('urlencode');
 var crypto = require('crypto');
 var url = require('url');
+var sleep = require('sleep');
 
 
 var config = require("./config")();
@@ -342,6 +343,8 @@ app.get('/wxoauth_callback', function(req, res, next){
 })
 
 app.post('/lottery', function(req, res, next){
+    sleep.usleep(100000); //sleep 100ms
+    
     var ua = req.headers['user-agent'].toLowerCase();
     console.log("user agent : " + ua);
     if(!ua ||  ua.indexOf("micromessenger") < 0 ) {
@@ -374,15 +377,15 @@ app.post('/lottery', function(req, res, next){
         if(err) {
             return console.error('error fetching client from pool', err);
         }
-        client.query('SELECT count(*) as totalCount from lottery_record where openid=$1', [input.openid], function(err, result) {
+        client.query('SELECT count(*) as totalCount from lottery_record where openid = $1', [input.openid], function(err, result) {
             done();
                     
             if(err) {
                 return console.error('error running query', err);
             }
             
-            console.log("==========total lottery count ====" + result.rows[0].totalCount);
-            if(result.rows[0].totalCount > 10){
+            console.log("==========total lottery count ====" + result.rows[0].totalcount);
+            if(result.rows[0].totalcount > 3){
                 return res.json({success:false, message: 'ILLEGAL'});
             }
             
