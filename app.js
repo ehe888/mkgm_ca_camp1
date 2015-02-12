@@ -50,8 +50,6 @@ var authFilter = function(req, res, next){
         return next();
     }
     
-    console.log("Request for " + req.url + " received.");
-    
     var openid = config.debug ? 'test1' : req.cookies.openid;
     
     if(!openid){        
@@ -351,7 +349,7 @@ app.post('/lottery', function(req, res, next){
         console.log("==============not weixin===========");
         return res.json({
                 success: false,
-                message: 'ILLEGAL'
+                message: '请在微信中打开'
         });
     }
 
@@ -362,7 +360,7 @@ app.post('/lottery', function(req, res, next){
         console.log("=====invalid mobile=== " + input.mobile);
         return res.json({
                 success: false,
-                message: 'ILLEGAL'
+                message: '无效的手机号码'
         });
     }
     if(input.openid === 'ouluKs2XzAiwI6gb7j8zu6Nug12Y' || input.openid === 'ouluKs77gsz4KqnfGOxFq0cYBB40' ){
@@ -386,7 +384,7 @@ app.post('/lottery', function(req, res, next){
             
             console.log("==========total lottery count ====" + result.rows[0].totalcount);
             if(result.rows[0].totalcount > 3){
-                return res.json({success:false, message: 'ILLEGAL'});
+                return res.json({success:false, message: '您的运气太好了，抢到了好多福袋，休息休息吧！'});
             }
             
             
