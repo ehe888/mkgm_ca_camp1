@@ -383,7 +383,7 @@ app.post('/lottery', function(req, res, next){
             }
             
             console.log("==========total lottery count ====" + result.rows[0].totalcount);
-            if(result.rows[0].totalcount > 3){
+            if(result.rows[0].totalcount > 5){
                 return res.json({success:false, message: '您的运气太好了，抢到了好多福袋，休息休息吧！'});
             }
             
@@ -408,7 +408,7 @@ app.post('/lottery', function(req, res, next){
                                 return next(err);
                             }
                             
-                            client.query("select * from lottery_record where mobile='%' ||  $1 || '%'", [input.mobile.trim()], function(err, result){
+                            client.query("select * from lottery_record where mobile ilike '%' ||  $1 || '%'", [input.mobile.trim()], function(err, result){
                                 done();
                                 if(err) {  
                                   console.error('error running query', err);
